@@ -2117,19 +2117,10 @@
         let currentBalance = 0;
         let isAdminLoggedIn = false;
         
-        // Initialize Sample Data
+        // Initialize Data (start with empty cars; admin adds them)
         function initializeData() {
-            // Sample Cars
-            cars = [
-                {id: 1, name: 'Toyota Innova', model: '2024', price_per_day: 15000, km_per_day: 100, category: 'suv', seats: 7, transmission: 'automatic', fuel_type: 'petrol', available: true, image: 'default_car.jpg'},
-                {id: 2, name: 'Honda City', model: '2024', price_per_day: 10000, km_per_day: 100, category: 'sedan', seats: 5, transmission: 'automatic', fuel_type: 'petrol', available: true, image: 'default_car.jpg'},
-                {id: 3, name: 'Hyundai Creta', model: '2024', price_per_day: 12000, km_per_day: 100, category: 'suv', seats: 5, transmission: 'automatic', fuel_type: 'petrol', available: true, image: 'default_car.jpg'},
-                {id: 4, name: 'Mahindra Thar', model: '2024', price_per_day: 18000, km_per_day: 120, category: 'suv', seats: 4, transmission: 'manual', fuel_type: 'diesel', available: true, image: 'default_car.jpg'},
-                {id: 5, name: 'Toyota Fortuner', model: '2024', price_per_day: 25000, km_per_day: 150, category: 'luxury', seats: 7, transmission: 'automatic', fuel_type: 'diesel', available: true, image: 'default_car.jpg'},
-                {id: 6, name: 'Mercedes Benz', model: '2024', price_per_day: 45000, km_per_day: 200, category: 'luxury', seats: 5, transmission: 'automatic', fuel_type: 'petrol', available: true, image: 'default_car.jpg'},
-                {id: 7, name: 'BMW X5', model: '2024', price_per_day: 40000, km_per_day: 200, category: 'luxury', seats: 5, transmission: 'automatic', fuel_type: 'petrol', available: true, image: 'default_car.jpg'},
-                {id: 8, name: 'Audi Q7', model: '2024', price_per_day: 42000, km_per_day: 200, category: 'luxury', seats: 7, transmission: 'automatic', fuel_type: 'petrol', available: true, image: 'default_car.jpg'}
-            ];
+            // Start with no cars; admin will add them.
+            cars = [];
             
             // Sample Banner
             banners = [
@@ -3542,9 +3533,20 @@
 
             cars.push(car);
             alert('Car added successfully!');
-            showCarManagement();
+            // Refresh UI everywhere and return to home so changes are visible immediately
+            displayCarsTable();
             displayCars();
             updateCarSelect();
+            if (typeof updateAdminDashboard === 'function') updateAdminDashboard();
+            showHome();
+        }
+
+        async function deleteCarFromSqlite(carId) {
+            await initSqlite();
+            const stmt = sqliteDb.prepare('DELETE FROM cars WHERE id = ?;');
+            stmt.run([carId]);
+            stmt.free();
+            persistSqliteSoon();
         }
         
         function editCar(carId) {
@@ -3555,14 +3557,34 @@
             alert('Edit car feature - ID: ' + carId);
         }
         
-        function deleteCar(carId) {
-            if (confirm('Are you sure you want to delete this car?')) {
-                cars = cars.filter(c => c.id != carId);
-                alert('Car deleted successfully!');
-                displayCarsTable();
-                displayCars();
-                updateCarSelect();
+        async function deleteCar(carId) {
+            if (!confirm('Are you sure you want to delete this car?')) return;
+
+            // Remove from DB first (so it won't come back after refresh)
+            try {
+                const hasDb = await idbGetSqliteBytes();
+                if (hasDb) await deleteCarFromSqlite(carId);
+            } catch (e) {
+                alert('Could not delete car from SQLite DB: ' + (e.message || e));
+                return;
             }
+
+            // Clear any cached image URL for this car to avoid stale popup/preview
+            const url = carImageUrlCache.get(carId);
+            if (url) {
+                try { URL.revokeObjectURL(url); } catch (_) {}
+                carImageUrlCache.delete(carId);
+            }
+
+            cars = cars.filter(c => c.id != carId);
+            alert('Car deleted successfully!');
+
+            // Refresh all places that show cars (premium fleet, dropdown, admin counters) and go home
+            displayCarsTable();
+            displayCars();
+            updateCarSelect();
+            if (typeof updateAdminDashboard === 'function') updateAdminDashboard();
+            showHome();
         }
         
         function displayBannersTable() {
