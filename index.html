@@ -1,0 +1,3656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fahad Premium Rentals - Luxury Car Rental in Sri Lanka</title>
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .bg-bubbles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .bg-bubbles li {
+            position: absolute;
+            list-style: none;
+            display: block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            bottom: -160px;
+            animation: square 25s infinite;
+            transition-timing-function: linear;
+            border-radius: 50%;
+        }
+        
+        @keyframes square {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: relative;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: #333 !important;
+            margin: 0 10px;
+        }
+        
+        .main-content {
+            position: relative;
+            z-index: 10;
+            padding: 40px 0;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .card-header-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px 30px;
+            border: none;
+        }
+        
+        .card-header-gradient h3 {
+            color: white;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .btn-outline-gradient {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+            font-weight: 600;
+            padding: 10px 25px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .btn-outline-gradient:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-active {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .form-control, .form-select {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 12px 15px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            outline: none;
+        }
+        
+        .file-upload input[type="file"] {
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            width: 100%;
+        }
+        
+        .alert {
+            border-radius: 12px;
+            border: none;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .table th, .table td {
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .car-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .car-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .car-image {
+            height: 150px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            overflow: hidden;
+        }
+        
+        .car-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .car-details {
+            padding: 15px;
+        }
+        
+        .car-price {
+            color: #667eea;
+            font-weight: 800;
+            font-size: 24px;
+        }
+        
+        .footer {
+            position: relative;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 20px 0;
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        .bg-bubbles li:nth-child(1) { left: 10%; width: 80px; height: 80px; animation-duration: 12s; }
+        .bg-bubbles li:nth-child(2) { left: 20%; width: 40px; height: 40px; animation-duration: 10s; }
+        .bg-bubbles li:nth-child(3) { left: 25%; width: 110px; height: 110px; }
+        .bg-bubbles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-duration: 18s; }
+        .bg-bubbles li:nth-child(5) { left: 70%; width: 50px; height: 50px; }
+        .bg-bubbles li:nth-child(6) { left: 80%; width: 120px; height: 120px; }
+        .bg-bubbles li:nth-child(7) { left: 32%; width: 160px; height: 160px; }
+        .bg-bubbles li:nth-child(8) { left: 55%; width: 45px; height: 45px; animation-duration: 45s; }
+        .bg-bubbles li:nth-child(9) { left: 15%; width: 35px; height: 35px; animation-duration: 35s; }
+        .bg-bubbles li:nth-child(10) { left: 90%; width: 150px; height: 150px; animation-duration: 11s; }
+        
+        .offer-banner {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+        
+        .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-12 {
+            padding: 0 15px;
+        }
+        
+        .col-md-3 { width: 25%; }
+        .col-md-4 { width: 33.333%; }
+        .col-md-5 { width: 41.666%; }
+        .col-md-6 { width: 50%; }
+        .col-md-7 { width: 58.333%; }
+        .col-md-8 { width: 66.666%; }
+        .col-md-9 { width: 75%; }
+        .col-md-10 { width: 83.333%; }
+        .col-md-12 { width: 100%; }
+        
+        @media (max-width: 768px) {
+            .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-12 {
+                width: 100%;
+            }
+        }
+        
+        .d-flex { display: flex; }
+        .justify-content-between { justify-content: space-between; }
+        .justify-content-center { justify-content: center; }
+        .align-items-center { align-items: center; }
+        .text-center { text-align: center; }
+        .text-end { text-align: right; }
+        .mb-0 { margin-bottom: 0; }
+        .mb-2 { margin-bottom: 10px; }
+        .mb-3 { margin-bottom: 15px; }
+        .mb-4 { margin-bottom: 20px; }
+        .mb-5 { margin-bottom: 30px; }
+        .mt-2 { margin-top: 10px; }
+        .mt-3 { margin-top: 15px; }
+        .mt-4 { margin-top: 20px; }
+        .mt-5 { margin-top: 30px; }
+        .p-3 { padding: 15px; }
+        .p-4 { padding: 20px; }
+        .p-5 { padding: 30px; }
+        .ms-2 { margin-left: 10px; }
+        .me-2 { margin-right: 10px; }
+        .me-3 { margin-right: 15px; }
+        .me-4 { margin-right: 20px; }
+        
+        .badge {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .bg-success { background: #28a745; color: white; }
+        .bg-warning { background: #ffc107; color: #000; }
+        .bg-danger { background: #dc3545; color: white; }
+        .bg-info { background: #17a2b8; color: white; }
+        .bg-primary { background: #007bff; color: white; }
+        .bg-secondary { background: #6c757d; color: white; }
+        .bg-light { background: #f8f9fa; color: #000; }
+        
+        .text-success { color: #28a745; }
+        .text-warning { color: #ffc107; }
+        .text-danger { color: #dc3545; }
+        .text-info { color: #17a2b8; }
+        .text-primary { color: #007bff; }
+        .text-muted { color: #6c757d; }
+        .text-white { color: white; }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 5px;
+            margin: 2px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 5px;
+        }
+        
+        hr {
+            margin: 20px 0;
+            border: 0;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .invalid-feedback {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-check-input {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        .d-grid { display: grid; }
+        .gap-2 { gap: 10px; }
+    </style>
+</head>
+<body>
+    <ul class="bg-bubbles">
+        <li></li><li></li><li></li><li></li><li></li>
+        <li></li><li></li><li></li><li></li><li></li>
+    </ul>
+    
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showHome()">
+                <i class="fas fa-car"></i> Fahad Premium Rentals
+            </a>
+            <button class="navbar-toggler" type="button" onclick="toggleMenu()">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showHome()"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showBookingStatus()"><i class="fas fa-search"></i> Track Booking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showAdminLogin()"><i class="fas fa-lock"></i> Admin</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="main-content">
+        <div class="container" id="mainContent">
+            <!-- Home Page -->
+            <div id="homePage">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <!-- Hero Section -->
+                        <div class="glass-card mb-5" style="position: relative; overflow: hidden; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <div style="padding: 60px 30px; border-radius: 20px;">
+                                <div class="text-center text-white">
+                                    <h1 class="display-4 mb-4" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Fahad Premium Rentals</h1>
+                                    <p class="lead" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">Luxury Car Rental in Sri Lanka</p>
+                                    
+                                    <!-- Special Offer Banner -->
+                                    <div class="offer-banner mb-4" style="background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%); color: #000; padding: 20px; border-radius: 15px; max-width: 400px; margin: 0 auto;">
+                                        <h2 class="mb-2">🔥 SPECIAL OFFER</h2>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <div style="font-size: 24px; font-weight: bold;">300 KM</div>
+                                            <div style="font-size: 36px; font-weight: 800; margin: 0 20px;">Rs. 15,000/=</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-4">
+                                        <a href="#" onclick="showBookingForm()" class="btn-gradient btn-lg me-3">
+                                            <i class="fas fa-calendar-check"></i> Book Now
+                                        </a>
+                                        <a href="https://wa.me/94756656862?text=Hello%20Fahad%20Premium%20Rentals%2C%20I%27m%20interested%20in%20renting%20a%20car.%20Can%20you%20help%20me%3F" target="_blank" class="btn-success btn-lg" style="background: #25D366; color: white; padding: 15px 30px; border-radius: 50px; text-decoration: none; display: inline-block; font-weight: 600;">
+                                            <i class="fab fa-whatsapp"></i> Call Now: 0753394996 / 0756656862
+                                        </a>
+                                    </div>
+                                    
+                                    <div class="mt-3 text-white">
+                                        <i class="fas fa-phone"></i> 0753394996 | 0756656862
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Cars Section -->
+                        <div class="glass-card mb-5" id="cars">
+                            <div class="card-header-gradient">
+                                <h3>
+                                    <i class="fas fa-car"></i>
+                                    Our Premium Fleet
+                                </h3>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="row" id="carsContainer"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Booking Form -->
+                        <div class="glass-card" id="booking-form">
+                            <div class="card-header-gradient">
+                                <h3>
+                                    <i class="fas fa-calendar-check"></i>
+                                    Book Your Car
+                                </h3>
+                            </div>
+                            <div class="card-body p-4">
+                                <!-- File Upload Guidelines -->
+                                <div class="alert alert-info mb-3">
+                                    <i class="fas fa-info-circle"></i>
+                                    <strong>File Upload Guidelines:</strong>
+                                    <ul class="mb-0 mt-2">
+                                        <li>Maximum file size: <strong>50MB per file</strong></li>
+                                        <li>Allowed formats: JPG, PNG, PDF</li>
+                                        <li>If your files are too large, please compress them before uploading</li>
+                                    </ul>
+                                </div>
+                                
+                                <form id="bookingForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-user"></i> Full Name
+                                            </label>
+                                            <input type="text" class="form-control" id="customer_name" placeholder="Enter your full name" required>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-envelope"></i> Email Address
+                                            </label>
+                                            <input type="email" class="form-control" id="email" placeholder="your@email.com" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-phone"></i> Phone Number
+                                            </label>
+                                            <input type="text" class="form-control" id="phone" placeholder="0771234567" required>
+                                            <small class="text-muted">Sri Lankan format: 0771234567 or +94771234567</small>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-car"></i> Select Car
+                                            </label>
+                                            <select class="form-select" id="car_model" required>
+                                                <option value="">Select a car</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-calendar"></i> Pickup Date
+                                            </label>
+                                            <input type="date" class="form-control" id="pickup_date" required>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-clock"></i> Pickup Time
+                                            </label>
+                                            <select class="form-select" id="pickup_time" required>
+                                                <option value="08:00">08:00 AM</option>
+                                                <option value="09:00">09:00 AM</option>
+                                                <option value="10:00" selected>10:00 AM</option>
+                                                <option value="11:00">11:00 AM</option>
+                                                <option value="12:00">12:00 PM</option>
+                                                <option value="13:00">01:00 PM</option>
+                                                <option value="14:00">02:00 PM</option>
+                                                <option value="15:00">03:00 PM</option>
+                                                <option value="16:00">04:00 PM</option>
+                                                <option value="17:00">05:00 PM</option>
+                                                <option value="18:00">06:00 PM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-calendar-check"></i> Return Date
+                                            </label>
+                                            <input type="date" class="form-control" id="return_date" required>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-clock"></i> Return Time
+                                            </label>
+                                            <select class="form-select" id="return_time" required>
+                                                <option value="08:00">08:00 AM</option>
+                                                <option value="09:00">09:00 AM</option>
+                                                <option value="10:00">10:00 AM</option>
+                                                <option value="11:00">11:00 AM</option>
+                                                <option value="12:00">12:00 PM</option>
+                                                <option value="13:00">01:00 PM</option>
+                                                <option value="14:00">02:00 PM</option>
+                                                <option value="15:00">03:00 PM</option>
+                                                <option value="16:00">04:00 PM</option>
+                                                <option value="17:00">05:00 PM</option>
+                                                <option value="18:00" selected>06:00 PM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-id-card"></i> ID Card (Front)
+                                            </label>
+                                            <div class="file-upload">
+                                                <input type="file" class="form-control" id="id_front" accept=".jpg,.jpeg,.png,.pdf" required>
+                                            </div>
+                                            <small class="text-muted">JPG, PNG or PDF (Max 50MB)</small>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-id-card"></i> ID Card (Back)
+                                            </label>
+                                            <div class="file-upload">
+                                                <input type="file" class="form-control" id="id_back" accept=".jpg,.jpeg,.png,.pdf" required>
+                                            </div>
+                                            <small class="text-muted">JPG, PNG or PDF (Max 50MB)</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-id-card"></i> Driving License
+                                            </label>
+                                            <div class="file-upload">
+                                                <input type="file" class="form-control" id="license_file" accept=".jpg,.jpeg,.png,.pdf" required>
+                                            </div>
+                                            <small class="text-muted">JPG, PNG or PDF (Max 50MB)</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Price Summary -->
+                                    <div class="alert alert-info mt-4" id="price-summary" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h5 class="mb-3"><i class="fas fa-calculator"></i> Price Summary</h5>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p class="mb-1"><strong>Car:</strong> <span id="selectedCarName"></span></p>
+                                                        <p class="mb-1"><strong>Price per day:</strong> <span id="pricePerDay">0</span></p>
+                                                        <p class="mb-1"><strong>Pickup:</strong> <span id="pickupDisplay"></span></p>
+                                                        <p class="mb-1"><strong>Return:</strong> <span id="returnDisplay"></span></p>
+                                                        <p class="mb-1"><strong>Total Days:</strong> <span id="totalDays">0</span></p>
+                                                    </div>
+                                                    <div class="col-md-6 text-end">
+                                                        <h4 class="text-primary"><strong>TOTAL: <span id="totalPrice">0</span></strong></h4>
+                                                        <small id="priceBreakdown" class="text-muted"></small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Required Payment Notice -->
+                                    <div class="alert alert-warning mt-3" id="payment-notice" style="display: none;">
+                                        <i class="fas fa-info-circle"></i>
+                                        <strong>Payment Required:</strong> After booking, you will need to pay the total amount to confirm your reservation.
+                                    </div>
+                                    
+                                    <div class="text-center mt-4">
+                                        <button type="button" class="btn-gradient btn-lg" id="submitBtn" onclick="submitBooking()" disabled>
+                                            <i class="fas fa-check-circle"></i> Book Now
+                                        </button>
+                                        <button type="reset" class="btn-outline-gradient btn-lg ms-2" onclick="resetBookingForm()">
+                                            <i class="fas fa-redo"></i> Reset
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Booking Status Page -->
+            <div id="bookingStatusPage" style="display: none;">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="glass-card">
+                            <div class="card-header-gradient">
+                                <h3>
+                                    <i class="fas fa-search"></i>
+                                    Check Booking Status
+                                </h3>
+                            </div>
+                            <div class="card-body p-5">
+                                <p class="text-muted text-center mb-4">
+                                    <i class="fas fa-info-circle"></i>
+                                    Enter your tracking number to check your booking status
+                                </p>
+                                
+                                <form id="statusSearchForm">
+                                    <div class="mb-4">
+                                        <label class="form-label">
+                                            <i class="fas fa-qrcode"></i> Tracking Number
+                                        </label>
+                                        <input type="text" class="form-control form-control-lg" id="tracking_number" placeholder="e.g., FR00001" required>
+                                        <small class="text-muted">Enter your tracking number (format: FR00001)</small>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2">
+                                        <button type="button" class="btn-gradient btn-lg" onclick="searchBooking()">
+                                            <i class="fas fa-search"></i> Check Status
+                                        </button>
+                                    </div>
+                                </form>
+                                
+                                <hr class="my-4">
+                                
+                                <div class="text-center">
+                                    <p class="text-muted mb-2">Don't have a booking yet?</p>
+                                    <a href="#" onclick="showHome(); showBookingForm()" class="btn-outline-gradient">
+                                        <i class="fas fa-calendar-plus"></i> Make a Booking
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Tips -->
+                        <div class="glass-card mt-4">
+                            <div class="card-body p-4">
+                                <h5><i class="fas fa-lightbulb text-warning"></i> Quick Tips:</h5>
+                                <ul class="text-muted mb-0">
+                                    <li>Your tracking number was provided after booking (format: FR00001)</li>
+                                    <li>Check your booking status anytime, 24/7</li>
+                                    <li>Contact us on WhatsApp for immediate assistance</li>
+                                    <li>Have your tracking number ready when contacting support</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Booking Result Page -->
+            <div id="bookingResultPage" style="display: none;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="glass-card" id="bookingResultContent"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Admin Login Page -->
+            <div id="adminLoginPage" style="display: none;">
+                <div class="row justify-content-center">
+                    <div class="col-md-5">
+                        <div class="glass-card">
+                            <div class="card-header-gradient" style="background: linear-gradient(135deg, #333 0%, #000 100%);">
+                                <h3>
+                                    <i class="fas fa-lock"></i>
+                                    Fahad Premium Rentals Admin Access
+                                </h3>
+                            </div>
+                            <div class="card-body p-5">
+                                <form id="adminLoginForm">
+                                    <div class="mb-4">
+                                        <label class="form-label">
+                                            <i class="fas fa-key"></i> Admin Password
+                                        </label>
+                                        <input type="password" class="form-control form-control-lg" id="admin_password" required placeholder="Enter admin password">
+                                    </div>
+                                    <button type="button" class="btn-gradient w-100 btn-lg" onclick="adminLogin()">
+                                        <i class="fas fa-sign-in-alt"></i> Login
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Admin Dashboard Page -->
+            <div id="adminDashboardPage" style="display: none;">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Business Overview Header -->
+                        <div class="glass-card mb-4">
+                            <div class="card-header-gradient d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0">
+                                    <i class="fas fa-chart-line"></i>
+                                    Fahad Premium Rentals - Business Dashboard
+                                </h3>
+                                <span class="badge bg-light text-dark" id="lastUpdated"></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Key Business Metrics -->
+                        <div class="row mb-4" id="statsCards"></div>
+                        
+                        <!-- Admin Navigation Buttons -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="glass-card">
+                                    <div class="card-body p-3">
+                                        <button class="btn-gradient me-2" onclick="showCarManagement()">
+                                            <i class="fas fa-car"></i> Manage Cars
+                                        </button>
+                                        <button class="btn-gradient me-2" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);" onclick="showBannerManagement()">
+                                            <i class="fas fa-images"></i> Manage Banners
+                                        </button>
+                                        <button class="btn-gradient me-2" style="background: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);" onclick="showBackgroundManagement()">
+                                            <i class="fas fa-image"></i> Website Background
+                                        </button>
+                                        <button class="btn-gradient me-2" style="background: linear-gradient(135deg, #f12711 0%, #f5af19 100%);" onclick="showHeroManagement()">
+                                            <i class="fas fa-photo-video"></i> Hero Background
+                                        </button>
+                                        <button class="btn-gradient me-2" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);" onclick="showAccountManagement()">
+                                            <i class="fas fa-wallet"></i> Account
+                                        </button>
+                                        <button class="btn-outline-gradient" onclick="logout()">
+                                            <i class="fas fa-sign-out-alt"></i> Logout
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Main Dashboard Table -->
+                        <div class="glass-card">
+                            <div class="card-header-gradient d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0">
+                                    <i class="fas fa-chart-line"></i>
+                                    Fahad Premium Rentals - Booking Management
+                                </h3>
+                                <div id="revenueSummary"></div>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="bookingsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Tracking #</th>
+                                                <th>Customer</th>
+                                                <th>Car</th>
+                                                <th>Dates</th>
+                                                <th>Total</th>
+                                                <th>Paid</th>
+                                                <th>Balance</th>
+                                                <th>Payment Status</th>
+                                                <th>Booking Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bookingsTableBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Car Management Page -->
+            <div id="carManagementPage" style="display: none;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="glass-card">
+                            <div class="card-header-gradient d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0">
+                                    <i class="fas fa-car"></i>
+                                    Fahad Premium Rentals - Manage Cars
+                                </h3>
+                                <button class="btn btn-light" onclick="showAddCarForm()">
+                                    <i class="fas fa-plus"></i> Add New Car
+                                </button>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle"></i>
+                                    Car images are stored in the uploads/cars folder. Upload images when adding or editing cars. Max file size: 50MB
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Image</th>
+                                                <th>Name</th>
+                                                <th>Model</th>
+                                                <th>Price/Day</th>
+                                                <th>KM/Day</th>
+                                                <th>Category</th>
+                                                <th>Seats</th>
+                                                <th>Transmission</th>
+                                                <th>Available</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="carsTableBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Banner Management Page -->
+            <div id="bannerManagementPage" style="display: none;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="glass-card">
+                            <div class="card-header-gradient d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0">
+                                    <i class="fas fa-images"></i>
+                                    Fahad Premium Rentals - Manage Homepage Banners
+                                </h3>
+                                <button class="btn btn-light" onclick="showAddBannerForm()">
+                                    <i class="fas fa-plus"></i> Add New Banner
+                                </button>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle"></i>
+                                    The active banner will automatically display on the homepage. You can create multiple banners and activate only one at a time.
+                                </div>
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Preview</th>
+                                                <th>Title</th>
+                                                <th>Offer</th>
+                                                <th>Status</th>
+                                                <th>Created</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bannersTableBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Background Management Page -->
+            <div id="backgroundManagementPage" style="display: none;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="glass-card">
+                            <div class="card-header-gradient" style="background: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);">
+                                <h3>
+                                    <i class="fas fa-image"></i>
+                                    Fahad Premium Rentals - Change Website Background
+                                </h3>
+                            </div>
+                            <div class="card-body p-4">
+                                <!-- Current Background Preview -->
+                                <div class="text-center mb-4">
+                                    <h5>Current Background:</h5>
+                                    <div id="currentBackgroundPreview" style="width: 100%; height: 200px; background: #667eea; border-radius: 10px; border: 3px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                                    </div>
+                                    <p class="mt-2 text-muted" id="currentBackgroundName"></p>
+                                </div>
+                                
+                                <form id="backgroundForm">
+                                    <div class="mb-4">
+                                        <label class="form-label">Website Background Image</label>
+                                        <input type="file" class="form-control" id="background_image" accept=".jpg,.jpeg,.png,.gif">
+                                        <small class="text-muted">Upload a new background image. Allowed: JPG, PNG, GIF. Max size: 50MB</small>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Background Title (Optional)</label>
+                                        <input type="text" class="form-control" id="background_title">
+                                        <small class="text-muted">Optional: Title for the background</small>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Background Description (Optional)</label>
+                                        <input type="text" class="form-control" id="background_description">
+                                        <small class="text-muted">Optional: Description for the background</small>
+                                    </div>
+                                    
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle"></i>
+                                        <strong>Tip:</strong> For best results, use high-quality images with dark or muted tones so that white text remains readable. Recommended size: 1920x1080px or larger.
+                                    </div>
+                                    
+                                    <div class="text-center mt-4">
+                                        <button type="button" class="btn-gradient btn-lg" onclick="updateBackground()">
+                                            <i class="fas fa-save"></i> Update Background
+                                        </button>
+                                        <button type="button" class="btn-outline-gradient btn-lg ms-2" onclick="showAdminDashboard()">
+                                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                                        </button>
+                                        <button type="button" class="btn-outline-gradient btn-lg ms-2" onclick="showHome()">
+                                            <i class="fas fa-eye"></i> Preview
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <!-- Background Gallery -->
+                        <div class="glass-card mt-4">
+                            <div class="card-header-gradient" style="background: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);">
+                                <h4>
+                                    <i class="fas fa-images"></i>
+                                    Fahad Premium Rentals - Background Gallery
+                                </h4>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="row" id="backgroundGallery"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hero Management Page -->
+            <div id="heroManagementPage" style="display: none;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="glass-card">
+                            <div class="card-header-gradient" style="background: linear-gradient(135deg, #f12711 0%, #f5af19 100%);">
+                                <h3>
+                                    <i class="fas fa-photo-video"></i>
+                                    Fahad Premium Rentals - Customize Hero Section Background
+                                </h3>
+                            </div>
+                            <div class="card-body p-4">
+                                <!-- Current Hero Preview -->
+                                <div class="text-center mb-4">
+                                    <h5>Current Hero Background:</h5>
+                                    <div id="currentHeroPreview" style="width: 100%; height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; border: 3px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative;">
+                                        <div id="heroOverlay" style="background: rgba(0,0,0,0.6); width: 100%; height: 100%; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                            <div style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                                                <h3 id="heroTitle">Fahad Premium Rentals</h3>
+                                                <p id="heroSubtitle">Luxury Car Rental in Sri Lanka</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-2 text-muted" id="currentHeroName"></p>
+                                </div>
+                                
+                                <form id="heroForm">
+                                    <div class="mb-4">
+                                        <label class="form-label">Hero Background Image</label>
+                                        <input type="file" class="form-control" id="hero_image" accept=".jpg,.jpeg,.png,.gif">
+                                        <small class="text-muted">Upload a new hero background image. Recommended size: 1920x1080px. Max size: 50MB</small>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Hero Title</label>
+                                            <input type="text" class="form-control" id="hero_title" value="Fahad Premium Rentals">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Hero Subtitle</label>
+                                            <input type="text" class="form-control" id="hero_subtitle" value="Luxury Car Rental in Sri Lanka">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Overlay Opacity (0.0 - 1.0)</label>
+                                            <input type="text" class="form-control" id="hero_opacity" value="0.6">
+                                            <small class="text-muted">0.0 = transparent, 1.0 = solid</small>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Overlay Color (RGB)</label>
+                                            <input type="text" class="form-control" id="hero_color" value="0,0,0">
+                                            <small class="text-muted">RGB values (e.g., 0,0,0 for black)</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="hero_active" checked>
+                                            <label class="form-check-label">Active Hero</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle"></i>
+                                        <strong>Tip:</strong> The hero section is the first thing customers see. Use high-quality images with good contrast for text readability.
+                                    </div>
+                                    
+                                    <div class="text-center mt-4">
+                                        <button type="button" class="btn-gradient btn-lg" onclick="updateHero()">
+                                            <i class="fas fa-save"></i> Update Hero
+                                        </button>
+                                        <button type="button" class="btn-outline-gradient btn-lg ms-2" onclick="showAdminDashboard()">
+                                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                                        </button>
+                                        <button type="button" class="btn-outline-gradient btn-lg ms-2" onclick="showHome()">
+                                            <i class="fas fa-eye"></i> Preview
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <!-- Hero Gallery -->
+                        <div class="glass-card mt-4">
+                            <div class="card-header-gradient" style="background: linear-gradient(135deg, #f12711 0%, #f5af19 100%);">
+                                <h4>
+                                    <i class="fas fa-images"></i>
+                                    Fahad Premium Rentals - Hero Background Gallery
+                                </h4>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="row" id="heroGallery"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Account Management Page -->
+            <div id="accountManagementPage" style="display: none;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="glass-card mb-4">
+                            <div class="card-header-gradient">
+                                <h3 class="mb-0">
+                                    <i class="fas fa-wallet"></i>
+                                    Fahad Premium Rentals - Account Management
+                                </h3>
+                            </div>
+                        </div>
+                        
+                        <!-- Balance Cards -->
+                        <div class="row mb-4" id="balanceCards"></div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="glass-card">
+                                    <div class="card-body p-3">
+                                        <button class="btn-gradient me-2" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);" onclick="showAddExpenseForm()">
+                                            <i class="fas fa-minus-circle"></i> Add Expense
+                                        </button>
+                                        <button class="btn-outline-gradient" onclick="showAdminDashboard()">
+                                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Recent Transactions -->
+                        <div class="glass-card mb-4">
+                            <div class="card-header-gradient">
+                                <h4 class="mb-0">
+                                    <i class="fas fa-history"></i>
+                                    Recent Transactions
+                                </h4>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Type</th>
+                                                <th>Category</th>
+                                                <th>Description</th>
+                                                <th>Amount</th>
+                                                <th>Balance After</th>
+                                                <th>Reference</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="transactionsTableBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Expenses List -->
+                        <div class="glass-card">
+                            <div class="card-header-gradient" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);">
+                                <h4 class="mb-0">
+                                    <i class="fas fa-file-invoice"></i>
+                                    Expenses
+                                </h4>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Category</th>
+                                                <th>Description</th>
+                                                <th>Amount</th>
+                                                <th>Payment Method</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="expensesTableBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add Car Form Page -->
+            <div id="addCarFormPage" style="display: none;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="glass-card">
+                            <div class="card-header-gradient">
+                                <h3>
+                                    <i class="fas fa-plus-circle"></i>
+                                    Fahad Premium Rentals - Add New Car
+                                </h3>
+                            </div>
+                            <div class="card-body p-4">
+                                <form id="addCarForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Car Name</label>
+                                            <input type="text" class="form-control" id="car_name" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Model Year</label>
+                                            <input type="text" class="form-control" id="car_model_year" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Price per Day (Rs.)</label>
+                                            <input type="number" class="form-control" id="car_price" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">KM allowed per day</label>
+                                            <input type="number" class="form-control" id="car_km" value="100" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Category</label>
+                                            <select class="form-select" id="car_category" required>
+                                                <option value="sedan">Sedan</option>
+                                                <option value="suv">SUV</option>
+                                                <option value="luxury">Luxury</option>
+                                                <option value="sports">Sports</option>
+                                                <option value="economy">Economy</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Transmission</label>
+                                            <select class="form-select" id="car_transmission" required>
+                                                <option value="automatic">Automatic</option>
+                                                <option value="manual">Manual</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Number of Seats</label>
+                                            <input type="number" class="form-control" id="car_seats" value="5" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Fuel Type</label>
+                                            <select class="form-select" id="car_fuel" required>
+                                                <option value="petrol">Petrol</option>
+                                                <option value="diesel">Diesel</option>
+                                                <option value="electric">Electric</option>
+                                                <option value="hybrid">Hybrid</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="car_available" checked>
+                                                <label class="form-check-label">Available for rent</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Car Image</label>
+                                            <input type="file" class="form-control" id="car_image" accept=".jpg,.jpeg,.png">
+                                            <small class="text-muted">Recommended size: 800x600px. Allowed: JPG, PNG. Max size: 50MB</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-center mt-4">
+                                        <button type="button" class="btn-gradient btn-lg" onclick="saveCar()">
+                                            <i class="fas fa-save"></i> Save Car
+                                        </button>
+                                        <button type="button" class="btn-outline-gradient btn-lg ms-2" onclick="showCarManagement()">
+                                            <i class="fas fa-times"></i> Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Edit Car Form Page -->
+            <div id="editCarFormPage" style="display: none;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="glass-card">
+                            <div class="card-header-gradient">
+                                <h3>
+                                    <i class="fas fa-edit"></i>
+                                    Fahad Premium Rentals - Edit Car
+                                </h3>
+                            </div>
+                            <div class="card-body p-4">
+                                <div id="editCarPreview" class="text-center mb-4"></div>
+                                <form id="editCarForm"></form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add Banner Form Page -->
+            <div id="addBannerFormPage" style="display: none;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="glass-card">
+                            <div class="card-header-gradient">
+                                <h3>
+                                    <i class="fas fa-plus-circle"></i>
+                                    Fahad Premium Rentals - Add New Banner
+                                </h3>
+                            </div>
+                            <div class="card-body p-4">
+                                <form id="addBannerForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">Banner Title</label>
+                                        <input type="text" class="form-control" id="banner_title" placeholder="e.g., Premium Car Rental in Sri Lanka" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Subtitle (Optional)</label>
+                                        <input type="text" class="form-control" id="banner_subtitle" placeholder="e.g., Experience luxury with our premium fleet">
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Banner Image</label>
+                                        <input type="file" class="form-control" id="banner_image" accept=".jpg,.jpeg,.png,.gif">
+                                        <small class="text-muted">Leave empty to use default banner. Allowed: JPG, PNG, GIF. Max size: 50MB</small>
+                                    </div>
+                                    
+                                    <hr>
+                                    <h5>Offer Section (Optional)</h5>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Offer Text</label>
+                                            <input type="text" class="form-control" id="banner_offer_text" placeholder="SPECIAL OFFER">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">KM Offer</label>
+                                            <input type="number" class="form-control" id="banner_km_offer" placeholder="300">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Price Offer</label>
+                                            <input type="text" class="form-control" id="banner_price_offer" placeholder="Rs. 15,000/=">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="banner_active">
+                                            <label class="form-check-label">Active Banner</label>
+                                            <small class="text-muted d-block">If checked, this banner will be active and all others will be deactivated.</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-center mt-4">
+                                        <button type="button" class="btn-gradient btn-lg" onclick="saveBanner()">
+                                            <i class="fas fa-save"></i> Save Banner
+                                        </button>
+                                        <button type="button" class="btn-outline-gradient btn-lg ms-2" onclick="showBannerManagement()">
+                                            <i class="fas fa-times"></i> Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add Expense Form Page -->
+            <div id="addExpenseFormPage" style="display: none;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="glass-card">
+                            <div class="card-header-gradient" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);">
+                                <h3>
+                                    <i class="fas fa-minus-circle"></i>
+                                    Fahad Premium Rentals - Add Expense
+                                </h3>
+                            </div>
+                            <div class="card-body p-4">
+                                <form id="addExpenseForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Date</label>
+                                            <input type="date" class="form-control" id="expense_date" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Category</label>
+                                            <select class="form-select" id="expense_category" required>
+                                                <option value="maintenance">Maintenance/Repair</option>
+                                                <option value="fuel">Fuel</option>
+                                                <option value="insurance">Insurance</option>
+                                                <option value="tax">Tax</option>
+                                                <option value="salary">Salary</option>
+                                                <option value="rent">Rent</option>
+                                                <option value="electricity">Electricity</option>
+                                                <option value="water">Water</option>
+                                                <option value="internet">Internet</option>
+                                                <option value="marketing">Marketing</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Description</label>
+                                        <input type="text" class="form-control" id="expense_description" required>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Amount (Rs.)</label>
+                                            <input type="number" class="form-control" id="expense_amount" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Payment Method</label>
+                                            <select class="form-select" id="expense_payment_method">
+                                                <option value="cash">Cash</option>
+                                                <option value="bank_transfer">Bank Transfer</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Receipt (Optional)</label>
+                                        <input type="file" class="form-control" id="expense_receipt" accept=".jpg,.jpeg,.png,.pdf">
+                                        <small class="text-muted">Upload receipt (JPG, PNG, PDF) - Max 50MB</small>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Notes</label>
+                                        <textarea class="form-control" id="expense_notes" rows="3"></textarea>
+                                    </div>
+                                    
+                                    <div class="text-center mt-4">
+                                        <button type="button" class="btn-gradient btn-lg" onclick="saveExpense()">
+                                            <i class="fas fa-save"></i> Add Expense
+                                        </button>
+                                        <button type="button" class="btn-outline-gradient btn-lg ms-2" onclick="showAccountManagement()">
+                                            <i class="fas fa-times"></i> Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Page -->
+            <div id="paymentPage" style="display: none;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="glass-card">
+                            <div class="card-header-gradient" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                                <h3>
+                                    <i class="fas fa-check-circle"></i>
+                                    Booking Successful!
+                                </h3>
+                            </div>
+                            <div class="card-body p-5" id="paymentContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- View Booking Page -->
+            <div id="viewBookingPage" style="display: none;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="glass-card">
+                            <div class="card-header-gradient">
+                                <h3>
+                                    <i class="fas fa-info-circle"></i>
+                                    Fahad Premium Rentals - Booking Details
+                                </h3>
+                            </div>
+                            <div class="card-body p-5" id="viewBookingContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Edit Booking Page -->
+            <div id="editBookingPage" style="display: none;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="glass-card">
+                            <div class="card-header-gradient" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);">
+                                <h3>
+                                    <i class="fas fa-edit"></i>
+                                    Edit Booking
+                                </h3>
+                            </div>
+                            <div class="card-body p-5" id="editBookingContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">
+                <i class="fas fa-copyright"></i> 2024 Fahad Premium Rentals. 
+                All rights reserved. | <i class="fas fa-phone"></i> +94 0753394996 | 0756656862
+            </p>
+        </div>
+    </footer>
+    
+    <script>
+        // Data Storage
+        let bookings = [];
+        let cars = [];
+        let banners = [];
+        let background = {
+            image: 'default_bg.jpg',
+            title: 'Fahad Premium Rentals',
+            description: 'Luxury Car Rental in Sri Lanka'
+        };
+        let hero = {
+            image: 'default_hero.jpg',
+            title: 'Fahad Premium Rentals',
+            subtitle: 'Luxury Car Rental in Sri Lanka',
+            overlay_opacity: 0.6,
+            overlay_color: '0,0,0',
+            is_active: true
+        };
+        let transactions = [];
+        let expenses = [];
+        let currentBalance = 0;
+        let isAdminLoggedIn = false;
+        
+        // Initialize Sample Data
+        function initializeData() {
+            // Sample Cars
+            cars = [
+                {id: 1, name: 'Toyota Innova', model: '2024', price_per_day: 15000, km_per_day: 100, category: 'suv', seats: 7, transmission: 'automatic', fuel_type: 'petrol', available: true, image: 'default_car.jpg'},
+                {id: 2, name: 'Honda City', model: '2024', price_per_day: 10000, km_per_day: 100, category: 'sedan', seats: 5, transmission: 'automatic', fuel_type: 'petrol', available: true, image: 'default_car.jpg'},
+                {id: 3, name: 'Hyundai Creta', model: '2024', price_per_day: 12000, km_per_day: 100, category: 'suv', seats: 5, transmission: 'automatic', fuel_type: 'petrol', available: true, image: 'default_car.jpg'},
+                {id: 4, name: 'Mahindra Thar', model: '2024', price_per_day: 18000, km_per_day: 120, category: 'suv', seats: 4, transmission: 'manual', fuel_type: 'diesel', available: true, image: 'default_car.jpg'},
+                {id: 5, name: 'Toyota Fortuner', model: '2024', price_per_day: 25000, km_per_day: 150, category: 'luxury', seats: 7, transmission: 'automatic', fuel_type: 'diesel', available: true, image: 'default_car.jpg'},
+                {id: 6, name: 'Mercedes Benz', model: '2024', price_per_day: 45000, km_per_day: 200, category: 'luxury', seats: 5, transmission: 'automatic', fuel_type: 'petrol', available: true, image: 'default_car.jpg'},
+                {id: 7, name: 'BMW X5', model: '2024', price_per_day: 40000, km_per_day: 200, category: 'luxury', seats: 5, transmission: 'automatic', fuel_type: 'petrol', available: true, image: 'default_car.jpg'},
+                {id: 8, name: 'Audi Q7', model: '2024', price_per_day: 42000, km_per_day: 200, category: 'luxury', seats: 7, transmission: 'automatic', fuel_type: 'petrol', available: true, image: 'default_car.jpg'}
+            ];
+            
+            // Sample Banner
+            banners = [
+                {
+                    id: 1,
+                    title: 'Fahad Premium Rentals',
+                    subtitle: 'Experience luxury with our premium fleet. Best prices, guaranteed!',
+                    image: 'default_banner.jpg',
+                    offer_text: 'SPECIAL OFFER',
+                    km_offer: 300,
+                    price_offer: 'Rs. 15,000/=',
+                    is_active: true,
+                    created_at: new Date().toISOString()
+                }
+            ];
+            
+            // Display Cars
+            displayCars();
+            updateCarSelect();
+        }
+        
+        // Format Currency
+        function formatCurrency(amount) {
+            return 'Rs. ' + amount.toLocaleString('en-US') + '/=';
+        }
+        
+        function formatCurrencySimple(amount) {
+            return 'Rs. ' + amount.toLocaleString('en-US');
+        }
+        
+        // Generate Tracking Number
+        function generateTrackingNumber() {
+            let lastNum = 0;
+            if (bookings.length > 0) {
+                const lastBooking = bookings[bookings.length - 1];
+                if (lastBooking.tracking_number) {
+                    lastNum = parseInt(lastBooking.tracking_number.substring(2)) || 0;
+                }
+            }
+            const newNum = lastNum + 1;
+            return 'FR' + newNum.toString().padStart(5, '0');
+        }
+        
+        // Page Navigation
+        function showHome() {
+            document.getElementById('homePage').style.display = 'block';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+            
+            // Reset to today's date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('pickup_date').min = today;
+            document.getElementById('return_date').min = today;
+        }
+        
+        function showBookingForm() {
+            document.getElementById('booking-form').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function showBookingStatus() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'block';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+        }
+        
+        function showAdminLogin() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'block';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+        }
+        
+        function showAdminDashboard() {
+            if (!isAdminLoggedIn) {
+                showAdminLogin();
+                return;
+            }
+            
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'block';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+            
+            updateAdminDashboard();
+        }
+        
+        function showCarManagement() {
+            if (!isAdminLoggedIn) {
+                showAdminLogin();
+                return;
+            }
+            
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'block';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+            
+            displayCarsTable();
+        }
+        
+        function showBannerManagement() {
+            if (!isAdminLoggedIn) {
+                showAdminLogin();
+                return;
+            }
+            
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'block';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+            
+            displayBannersTable();
+        }
+        
+        function showBackgroundManagement() {
+            if (!isAdminLoggedIn) {
+                showAdminLogin();
+                return;
+            }
+            
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'block';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+            
+            document.getElementById('background_title').value = background.title || '';
+            document.getElementById('background_description').value = background.description || '';
+            document.getElementById('currentBackgroundName').textContent = 'Filename: ' + background.image;
+            displayBackgroundGallery();
+        }
+        
+        function showHeroManagement() {
+            if (!isAdminLoggedIn) {
+                showAdminLogin();
+                return;
+            }
+            
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'block';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+            
+            document.getElementById('hero_title').value = hero.title || 'Fahad Premium Rentals';
+            document.getElementById('hero_subtitle').value = hero.subtitle || 'Luxury Car Rental in Sri Lanka';
+            document.getElementById('hero_opacity').value = hero.overlay_opacity || 0.6;
+            document.getElementById('hero_color').value = hero.overlay_color || '0,0,0';
+            document.getElementById('hero_active').checked = hero.is_active;
+            document.getElementById('currentHeroName').textContent = 'Filename: ' + hero.image;
+            document.getElementById('heroTitle').textContent = hero.title || 'Fahad Premium Rentals';
+            document.getElementById('heroSubtitle').textContent = hero.subtitle || 'Luxury Car Rental in Sri Lanka';
+            document.getElementById('heroOverlay').style.background = 'rgba(' + hero.overlay_color + ', ' + hero.overlay_opacity + ')';
+            displayHeroGallery();
+        }
+        
+        function showAccountManagement() {
+            if (!isAdminLoggedIn) {
+                showAdminLogin();
+                return;
+            }
+            
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'block';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+            
+            updateAccountManagement();
+        }
+        
+        function showAddCarForm() {
+            if (!isAdminLoggedIn) {
+                showAdminLogin();
+                return;
+            }
+            
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'block';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+            
+            // Reset form
+            document.getElementById('addCarForm').reset();
+            document.getElementById('car_km').value = 100;
+            document.getElementById('car_seats').value = 5;
+            document.getElementById('car_available').checked = true;
+        }
+        
+        function showAddBannerForm() {
+            if (!isAdminLoggedIn) {
+                showAdminLogin();
+                return;
+            }
+            
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'block';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+        }
+        
+        function showAddExpenseForm() {
+            if (!isAdminLoggedIn) {
+                showAdminLogin();
+                return;
+            }
+            
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'block';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+            
+            // Set today's date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('expense_date').value = today;
+        }
+        
+        function showViewBooking(bookingId) {
+            if (!isAdminLoggedIn) {
+                showAdminLogin();
+                return;
+            }
+            
+            const booking = bookings.find(b => b.id == bookingId);
+            if (!booking) return;
+            
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'block';
+            document.getElementById('editBookingPage').style.display = 'none';
+            
+            displayViewBooking(booking);
+        }
+        
+        function showEditBooking(bookingId) {
+            if (!isAdminLoggedIn) {
+                showAdminLogin();
+                return;
+            }
+            
+            const booking = bookings.find(b => b.id == bookingId);
+            if (!booking) return;
+            
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'block';
+            
+            displayEditBooking(booking);
+        }
+        
+        // Display Functions
+        function displayCars() {
+            const carsContainer = document.getElementById('carsContainer');
+            if (!carsContainer) return;
+            
+            let html = '';
+            cars.filter(car => car.available).forEach(car => {
+                html += `
+                    <div class="col-md-4 mb-4">
+                        <div class="car-card" onclick="selectCar('${car.name} ${car.model}', ${car.price_per_day})">
+                            <div class="car-image">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div class="car-details">
+                                <h4>${car.name}</h4>
+                                <p class="text-muted">${car.model} • ${car.transmission} • ${car.seats} Seats • ${car.fuel_type}</p>
+                                <div class="car-price">${formatCurrencySimple(car.price_per_day)}/day</div>
+                                <small class="text-info">${car.km_per_day} km/day included</small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            carsContainer.innerHTML = html;
+        }
+        
+        function updateCarSelect() {
+            const carSelect = document.getElementById('car_model');
+            if (!carSelect) return;
+            
+            let html = '<option value="">Select a car</option>';
+            cars.filter(car => car.available).forEach(car => {
+                html += `<option value="${car.name} ${car.model}" data-price="${car.price_per_day}" data-km="${car.km_per_day}">
+                    ${car.name} ${car.model} - ${formatCurrencySimple(car.price_per_day)}/day (${car.km_per_day} km/day)
+                </option>`;
+            });
+            
+            carSelect.innerHTML = html;
+        }
+        
+        function selectCar(carName, price) {
+            const select = document.getElementById('car_model');
+            for (let option of select.options) {
+                if (option.text.includes(carName)) {
+                    option.selected = true;
+                    break;
+                }
+            }
+            calculateTotal();
+            
+            // Scroll to booking form
+            document.getElementById('booking-form').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Price Calculator
+        function calculateTotal() {
+            const pickupDate = document.getElementById('pickup_date');
+            const returnDate = document.getElementById('return_date');
+            const carSelect = document.getElementById('car_model');
+            
+            const priceSummary = document.getElementById('price-summary');
+            const paymentNotice = document.getElementById('payment-notice');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            const totalDaysEl = document.getElementById('totalDays');
+            const pricePerDayEl = document.getElementById('pricePerDay');
+            const totalPriceEl = document.getElementById('totalPrice');
+            const priceBreakdown = document.getElementById('priceBreakdown');
+            const selectedCarName = document.getElementById('selectedCarName');
+            const pickupDisplay = document.getElementById('pickupDisplay');
+            const returnDisplay = document.getElementById('returnDisplay');
+            
+            if (!pickupDate || !returnDate || !carSelect) return;
+            
+            if (pickupDate.value && returnDate.value && carSelect.value) {
+                const pickup = new Date(pickupDate.value);
+                const ret = new Date(returnDate.value);
+                const diffTime = ret - pickup;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays > 0) {
+                    const selectedOption = carSelect.options[carSelect.selectedIndex];
+                    const pricePerDay = parseFloat(selectedOption.dataset.price) || 0;
+                    
+                    // Calculate total
+                    const total = diffDays * pricePerDay;
+                    
+                    // Update display
+                    selectedCarName.textContent = carSelect.value;
+                    pricePerDayEl.textContent = 'Rs. ' + pricePerDay.toLocaleString('en-US') + '/=';
+                    totalDaysEl.textContent = diffDays;
+                    totalPriceEl.innerHTML = '<strong>Rs. ' + total.toLocaleString('en-US') + '/=</strong>';
+                    
+                    // Format dates
+                    const pickupDateObj = new Date(pickupDate.value);
+                    const returnDateObj = new Date(returnDate.value);
+                    pickupDisplay.textContent = pickupDateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                    returnDisplay.textContent = returnDateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                    
+                    priceBreakdown.textContent = diffDays + ' days × Rs. ' + pricePerDay.toLocaleString('en-US') + '/= = Rs. ' + total.toLocaleString('en-US') + '/=';
+                    
+                    // Show summary and enable submit
+                    priceSummary.style.display = 'block';
+                    paymentNotice.style.display = 'block';
+                    submitBtn.disabled = false;
+                    
+                    // Store total for submission
+                    document.getElementById('total_price_hidden')?.remove();
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = 'total_price';
+                    hiddenInput.id = 'total_price_hidden';
+                    hiddenInput.value = total;
+                    document.querySelector('form').appendChild(hiddenInput);
+                } else if (diffDays === 0) {
+                    alert('Return date must be after pickup date');
+                    priceSummary.style.display = 'none';
+                    paymentNotice.style.display = 'none';
+                    submitBtn.disabled = true;
+                } else {
+                    priceSummary.style.display = 'none';
+                    paymentNotice.style.display = 'none';
+                    submitBtn.disabled = true;
+                }
+            } else {
+                priceSummary.style.display = 'none';
+                paymentNotice.style.display = 'none';
+                submitBtn.disabled = true;
+            }
+        }
+        
+        // Booking Functions
+        function submitBooking() {
+            // Validate form
+            const customerName = document.getElementById('customer_name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const carModel = document.getElementById('car_model').value;
+            const pickupDate = document.getElementById('pickup_date').value;
+            const returnDate = document.getElementById('return_date').value;
+            const idFront = document.getElementById('id_front').files[0];
+            const idBack = document.getElementById('id_back').files[0];
+            const licenseFile = document.getElementById('license_file').files[0];
+            
+            if (!customerName || !email || !phone || !carModel || !pickupDate || !returnDate || !idFront || !idBack || !licenseFile) {
+                alert('Please fill in all fields and upload all required documents');
+                return;
+            }
+            
+            // Validate phone number (Sri Lankan format)
+            const phoneRegex = /^(07[0-9]{8}|7[0-9]{8}|\+947[0-9]{8}|00947[0-9]{8})$/;
+            const cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
+            if (!phoneRegex.test(cleanPhone)) {
+                alert('Invalid phone number. Use Sri Lankan format (e.g., 0771234567, 771234567, or +94771234567)');
+                return;
+            }
+            
+            // Validate file sizes (max 50MB)
+            const maxSize = 50 * 1024 * 1024; // 50MB
+            if (idFront.size > maxSize || idBack.size > maxSize || licenseFile.size > maxSize) {
+                alert('One or more files exceed the 50MB limit. Please compress your files and try again.');
+                return;
+            }
+            
+            // Get car price
+            const carSelect = document.getElementById('car_model');
+            const selectedOption = carSelect.options[carSelect.selectedIndex];
+            const pricePerDay = parseFloat(selectedOption.dataset.price) || 0;
+            
+            // Calculate total days and price
+            const pickup = new Date(pickupDate);
+            const ret = new Date(returnDate);
+            const totalDays = Math.ceil((ret - pickup) / (1000 * 60 * 60 * 24));
+            const totalPrice = totalDays * pricePerDay;
+            
+            // Check if car is already booked (simple check)
+            const pickupTime = document.getElementById('pickup_time').value;
+            const returnTime = document.getElementById('return_time').value;
+            
+            const overlapping = bookings.some(b => 
+                b.car_model === carModel && 
+                b.status !== 'cancelled' &&
+                b.pickup_date <= returnDate && 
+                b.return_date >= pickupDate
+            );
+            
+            if (overlapping) {
+                alert('This car is already booked for the selected dates. Please choose another car or different dates.');
+                return;
+            }
+            
+            // Generate tracking number
+            const trackingNumber = generateTrackingNumber();
+            
+            // Create booking object
+            const booking = {
+                id: bookings.length + 1,
+                tracking_number: trackingNumber,
+                customer_name: customerName,
+                email: email,
+                phone: phone,
+                car_model: carModel,
+                car_price_per_day: pricePerDay,
+                pickup_date: pickupDate,
+                pickup_time: pickupTime,
+                return_date: returnDate,
+                return_time: returnTime,
+                total_days: totalDays,
+                total_price: totalPrice,
+                amount_paid: 0,
+                balance_due: totalPrice,
+                payment_status: 'pending',
+                id_front: 'uploaded_front.jpg', // Simulated
+                id_back: 'uploaded_back.jpg', // Simulated
+                license_file: 'uploaded_license.jpg', // Simulated
+                status: 'pending',
+                created_at: new Date().toISOString()
+            };
+            
+            // Add to bookings array
+            bookings.push(booking);
+            
+            // Show success message
+            alert(`Booking successful! Your tracking number is: ${trackingNumber}. Total amount: ${formatCurrency(totalPrice)}. Please complete payment.`);
+            
+            // Redirect to payment page
+            showPayment(booking.id);
+        }
+        
+        function resetBookingForm() {
+            document.getElementById('bookingForm').reset();
+            document.getElementById('price-summary').style.display = 'none';
+            document.getElementById('payment-notice').style.display = 'none';
+            document.getElementById('submitBtn').disabled = true;
+        }
+        
+        // Payment Functions
+        function showPayment(bookingId) {
+            const booking = bookings.find(b => b.id == bookingId);
+            if (!booking) return;
+            
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'none';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'block';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+            
+            const now = new Date().toLocaleString();
+            
+            let html = `
+                <div class="text-center mb-4">
+                    <i class="fas fa-check-circle text-success" style="font-size: 80px;"></i>
+                </div>
+                
+                <h2 class="text-center mb-4">Thank You, ${booking.customer_name}!</h2>
+                
+                <!-- Tracking Number Highlight -->
+                <div class="alert alert-info text-center p-4 mb-4">
+                    <h4 class="mb-2"><i class="fas fa-qrcode"></i> Your Tracking Number:</h4>
+                    <div style="font-size: 48px; font-weight: 800; letter-spacing: 5px; background: #f8f9fa; padding: 20px; border-radius: 15px; border: 3px dashed #667eea;">
+                        ${booking.tracking_number}
+                    </div>
+                    <p class="mt-3 mb-0"><i class="fas fa-save"></i> Save this number to check your booking status</p>
+                </div>
+                
+                <!-- Price Summary Card -->
+                <div class="card border-0 shadow mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-money-bill-wave"></i> Price Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Car:</strong> ${booking.car_model}</p>
+                                <p><strong>Price per day:</strong> ${formatCurrency(booking.car_price_per_day)}</p>
+                                <p><strong>Duration:</strong> ${booking.total_days} days</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h3 class="text-primary">Total: ${formatCurrency(booking.total_price)}</h3>
+                                <hr>
+                                <p><strong>Amount Paid:</strong> ${formatCurrency(booking.amount_paid)}</p>
+                                <p><strong>Balance Due:</strong> ${formatCurrency(booking.balance_due)}</p>
+                                <p><strong>Payment Status:</strong> 
+                                    <span class="badge ${booking.payment_status === 'paid' ? 'bg-success' : booking.payment_status === 'partial' ? 'bg-warning' : 'bg-danger'}">
+                                        ${booking.payment_status.toUpperCase()}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            if (booking.balance_due > 0) {
+                html += `
+                    <!-- Payment Form -->
+                    <div class="card border-0 shadow mb-4">
+                        <div class="card-header bg-warning">
+                            <h5 class="mb-0"><i class="fas fa-credit-card"></i> Make Payment</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="paymentForm" onsubmit="event.preventDefault(); processPayment(${booking.id})">
+                                <div class="mb-3">
+                                    <label class="form-label">Amount to Pay (Rs.)</label>
+                                    <input type="number" class="form-control" id="payment_amount" value="${booking.balance_due}" min="1" max="${booking.balance_due}" required>
+                                    <small class="text-muted">Balance due: ${formatCurrency(booking.balance_due)}</small>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Payment Method</label>
+                                    <select class="form-select" id="payment_method" required>
+                                        <option value="bank_transfer">Bank Transfer</option>
+                                        <option value="cash">Cash</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Reference Number (Optional)</label>
+                                    <input type="text" class="form-control" id="payment_reference" placeholder="Enter reference number">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Payment Screenshot (Optional)</label>
+                                    <input type="file" class="form-control" id="payment_screenshot" accept=".jpg,.jpeg,.png">
+                                    <small class="text-muted">Max file size: 50MB</small>
+                                </div>
+                                
+                                <button type="submit" class="btn-gradient">
+                                    <i class="fas fa-check"></i> Submit Payment
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Bank Details
+            html += `
+                <!-- Bank Details -->
+                <div class="card border-0 shadow mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-university"></i> Bank Transfer Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <strong>Bank Name:</strong> Bank of Ceylon<br>
+                            <strong>Account Name:</strong> Fahad Rental Service<br>
+                            <strong>Account Number:</strong> 123456789012<br>
+                            <strong>Branch Code:</strong> 123<br>
+                            <strong>Account Type:</strong> Savings<br>
+                            <strong>Amount to Pay:</strong> ${formatCurrency(booking.balance_due)}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- WhatsApp Contact -->
+                <div class="text-center mt-4">
+                    <a href="https://wa.me/94756656862?text=Hello%20Fahad%20Premium%20Rentals%2C%0A%0AI%20just%20made%20a%20booking%20with%20tracking%20number%3A%20*${booking.tracking_number}*%0A%0ABooking%20Details%3A%0A•%20Customer%3A%20${encodeURIComponent(booking.customer_name)}%0A•%20Car%3A%20${encodeURIComponent(booking.car_model)}%0A•%20Total%3A%20${encodeURIComponent(formatCurrency(booking.total_price))}%0A•%20Paid%3A%20${encodeURIComponent(formatCurrency(booking.amount_paid))}%0A•%20Balance%3A%20${encodeURIComponent(formatCurrency(booking.balance_due))}%0A•%20Pickup%3A%20${booking.pickup_date}%20at%20${booking.pickup_time}%0A•%20Return%3A%20${booking.return_date}%20at%20${booking.return_time}%0A•%20Booked%20at%3A%20${encodeURIComponent(now)}%0A%0APlease%20confirm%20my%20booking.%20Thank%20you!" target="_blank" class="btn-success btn-lg" style="background: #25D366; color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; display: inline-block; font-weight: 600;">
+                        <i class="fab fa-whatsapp" style="font-size: 24px; margin-right: 10px;"></i>
+                        Share on WhatsApp
+                    </a>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button class="btn-gradient" onclick="showHome()">
+                        <i class="fas fa-home"></i> Back to Home
+                    </button>
+                    <button class="btn-outline-gradient" onclick="searchBookingByNumber('${booking.tracking_number}')">
+                        <i class="fas fa-search"></i> Check Status
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('paymentContent').innerHTML = html;
+        }
+        
+        function processPayment(bookingId) {
+            const booking = bookings.find(b => b.id == bookingId);
+            if (!booking) return;
+            
+            const amount = parseInt(document.getElementById('payment_amount').value);
+            const method = document.getElementById('payment_method').value;
+            const reference = document.getElementById('payment_reference').value;
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+            
+            if (amount > booking.balance_due) {
+                alert('Amount cannot exceed balance due');
+                return;
+            }
+            
+            // Update booking
+            booking.amount_paid += amount;
+            booking.balance_due = booking.total_price - booking.amount_paid;
+            booking.payment_method = method;
+            booking.payment_reference = reference;
+            
+            if (booking.balance_due <= 0) {
+                booking.payment_status = 'paid';
+                booking.balance_due = 0;
+            } else if (booking.amount_paid > 0) {
+                booking.payment_status = 'partial';
+            }
+            
+            // Add transaction
+            const transaction = {
+                id: transactions.length + 1,
+                date: new Date().toISOString(),
+                type: 'income',
+                category: 'booking_payment',
+                description: `Payment for booking ${booking.tracking_number}`,
+                amount: amount,
+                balance_after: currentBalance + amount,
+                reference_id: booking.tracking_number,
+                payment_method: method,
+                notes: `Payment received from ${booking.customer_name}`
+            };
+            transactions.push(transaction);
+            currentBalance += amount;
+            
+            alert(`Payment of ${formatCurrency(amount)} recorded! Balance due: ${formatCurrency(booking.balance_due)}`);
+            
+            // Refresh payment page
+            showPayment(bookingId);
+        }
+        
+        // Booking Status Functions
+        function searchBooking() {
+            const trackingNumber = document.getElementById('tracking_number').value.trim().toUpperCase();
+            
+            if (!trackingNumber) {
+                alert('Please enter a tracking number');
+                return;
+            }
+            
+            const booking = bookings.find(b => b.tracking_number === trackingNumber);
+            
+            if (booking) {
+                displayBookingResult(booking);
+            } else {
+                alert(`No booking found with tracking number: ${trackingNumber}`);
+            }
+        }
+        
+        function searchBookingByNumber(trackingNumber) {
+            const booking = bookings.find(b => b.tracking_number === trackingNumber);
+            if (booking) {
+                displayBookingResult(booking);
+            }
+        }
+        
+        function displayBookingResult(booking) {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingStatusPage').style.display = 'none';
+            document.getElementById('bookingResultPage').style.display = 'block';
+            document.getElementById('adminLoginPage').style.display = 'none';
+            document.getElementById('adminDashboardPage').style.display = 'none';
+            document.getElementById('carManagementPage').style.display = 'none';
+            document.getElementById('bannerManagementPage').style.display = 'none';
+            document.getElementById('backgroundManagementPage').style.display = 'none';
+            document.getElementById('heroManagementPage').style.display = 'none';
+            document.getElementById('accountManagementPage').style.display = 'none';
+            document.getElementById('addCarFormPage').style.display = 'none';
+            document.getElementById('editCarFormPage').style.display = 'none';
+            document.getElementById('addBannerFormPage').style.display = 'none';
+            document.getElementById('addExpenseFormPage').style.display = 'none';
+            document.getElementById('paymentPage').style.display = 'none';
+            document.getElementById('viewBookingPage').style.display = 'none';
+            document.getElementById('editBookingPage').style.display = 'none';
+            
+            const now = new Date().toLocaleString();
+            
+            let statusColor = '';
+            let statusIcon = '';
+            let statusMessage = '';
+            
+            if (booking.status === 'pending') {
+                statusColor = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+                statusIcon = 'fa-clock';
+                statusMessage = `Your booking is pending payment confirmation. Balance due: ${formatCurrency(booking.balance_due)}. Please complete the payment and contact us on WhatsApp.`;
+            } else if (booking.status === 'active') {
+                statusColor = 'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)';
+                statusIcon = 'fa-play';
+                statusMessage = `Your rental is currently ACTIVE! Enjoy your ride. Please return the car on ${booking.return_date} at ${booking.return_time}.`;
+            } else if (booking.status === 'completed') {
+                statusColor = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
+                statusIcon = 'fa-check-circle';
+                statusMessage = `Your rental has been COMPLETED. Thank you for choosing Fahad Premium Rentals! We hope to see you again.`;
+            } else {
+                statusColor = 'linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%)';
+                statusIcon = 'fa-times-circle';
+                statusMessage = `This booking has been CANCELLED. Please contact support for more information.`;
+            }
+            
+            const html = `
+                <div class="glass-card">
+                    <div class="card-header-gradient" style="background: ${statusColor};">
+                        <h3 class="mb-0">
+                            <i class="fas fa-info-circle"></i>
+                            Booking Details - ${booking.tracking_number}
+                        </h3>
+                    </div>
+                    <div class="card-body p-5">
+                        <!-- Status Banner -->
+                        <div class="text-center mb-4">
+                            <span class="status-badge status-${booking.status}" style="font-size: 18px; padding: 12px 30px;">
+                                <i class="fas ${statusIcon}"></i>
+                                ${booking.status.toUpperCase()}
+                            </span>
+                            <br><small class="text-muted">Last checked: ${now}</small>
+                        </div>
+                        
+                        <!-- Tracking Number Display -->
+                        <div class="alert alert-info text-center p-4 mb-4">
+                            <h5><i class="fas fa-qrcode"></i> Tracking Number</h5>
+                            <div style="font-size: 32px; font-weight: 700; letter-spacing: 3px;">${booking.tracking_number}</div>
+                        </div>
+                        
+                        <!-- Customer Info Card -->
+                        <div class="card border-0 shadow-sm mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary mb-3">
+                                    <i class="fas fa-user-circle"></i> Customer Information
+                                </h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Name:</strong> ${booking.customer_name}</p>
+                                        <p><strong>Phone:</strong> ${booking.phone}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Email:</strong> ${booking.email}</p>
+                                        <p><strong>Booking Date:</strong> ${new Date(booking.created_at).toLocaleString()}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Rental Details Card -->
+                        <div class="card border-0 shadow-sm mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary mb-3">
+                                    <i class="fas fa-car"></i> Rental Details
+                                </h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Car Model:</strong> ${booking.car_model}</p>
+                                        <p><strong>Price per day:</strong> ${formatCurrency(booking.car_price_per_day)}</p>
+                                        <p><strong>Duration:</strong> ${booking.total_days} days</p>
+                                        <p><strong>Pickup:</strong> ${booking.pickup_date} at ${booking.pickup_time}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Return:</strong> ${booking.return_date} at ${booking.return_time}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Price Summary Card -->
+                        <div class="card border-0 shadow-sm mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary mb-3">
+                                    <i class="fas fa-money-bill-wave"></i> Payment Summary
+                                </h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Total Price:</strong> ${formatCurrency(booking.total_price)}</p>
+                                        <p><strong>Amount Paid:</strong> ${formatCurrency(booking.amount_paid)}</p>
+                                        <p><strong>Balance Due:</strong> ${formatCurrency(booking.balance_due)}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Payment Status:</strong> 
+                                            <span class="badge ${booking.payment_status === 'paid' ? 'bg-success' : booking.payment_status === 'partial' ? 'bg-warning' : 'bg-danger'}">
+                                                ${booking.payment_status.toUpperCase()}
+                                            </span>
+                                        </p>
+                                        ${booking.payment_method ? `<p><strong>Payment Method:</strong> ${booking.payment_method}</p>` : ''}
+                                        ${booking.payment_reference ? `<p><strong>Reference:</strong> ${booking.payment_reference}</p>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Status Message -->
+                        <div class="alert ${booking.status === 'pending' ? 'alert-warning' : booking.status === 'active' ? 'alert-success' : booking.status === 'completed' ? 'alert-info' : 'alert-danger'} mt-4">
+                            <i class="fas ${statusIcon}"></i>
+                            ${statusMessage}
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="text-center mt-4">
+                            ${booking.balance_due > 0 ? `
+                                <button class="btn-gradient btn-lg me-2" onclick="showPayment(${booking.id})">
+                                    <i class="fas fa-credit-card"></i> Pay Now (${formatCurrency(booking.balance_due)})
+                                </button>
+                            ` : ''}
+                            
+                            <a href="https://wa.me/94756656862?text=Hi%2C%20I%20have%20a%20question%20about%20booking%20${booking.tracking_number}" target="_blank" class="btn-outline-gradient btn-lg">
+                                <i class="fab fa-whatsapp"></i> Contact Support
+                            </a>
+                            
+                            <button class="btn-gradient btn-lg" onclick="showHome()">
+                                <i class="fas fa-home"></i> Back to Home
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('bookingResultContent').innerHTML = html;
+        }
+        
+        // Admin Functions
+        function adminLogin() {
+            const password = document.getElementById('admin_password').value;
+            
+            if (password === 'admin123') {
+                isAdminLoggedIn = true;
+                alert('Welcome to Fahad Premium Rentals Admin!');
+                showAdminDashboard();
+            } else {
+                alert('Invalid password');
+            }
+        }
+        
+        function logout() {
+            isAdminLoggedIn = false;
+            showHome();
+        }
+        
+        function toggleMenu() {
+            const navbar = document.getElementById('navbarNav');
+            navbar.classList.toggle('show');
+        }
+        
+        function updateAdminDashboard() {
+            document.getElementById('lastUpdated').textContent = `Last Updated: ${new Date().toLocaleString()}`;
+            
+            // Calculate stats
+            const totalBookings = bookings.length;
+            const pendingCount = bookings.filter(b => b.status === 'pending').length;
+            const activeCount = bookings.filter(b => b.status === 'active').length;
+            const completedCount = bookings.filter(b => b.status === 'completed').length;
+            const totalCars = cars.length;
+            
+            const totalRevenue = bookings.reduce((sum, b) => sum + b.amount_paid, 0);
+            const totalExpected = bookings.reduce((sum, b) => sum + b.total_price, 0);
+            const totalPendingPayments = bookings.reduce((sum, b) => sum + b.balance_due, 0);
+            
+            const paidCount = bookings.filter(b => b.payment_status === 'paid').length;
+            const partialCount = bookings.filter(b => b.payment_status === 'partial').length;
+            const pendingPaymentCount = bookings.filter(b => b.payment_status === 'pending').length;
+            
+            const pendingBalance = bookings.filter(b => b.status === 'pending').reduce((sum, b) => sum + b.balance_due, 0);
+            const activeBalance = bookings.filter(b => b.status === 'active').reduce((sum, b) => sum + b.balance_due, 0);
+            const completedBalance = bookings.filter(b => b.status === 'completed').reduce((sum, b) => sum + b.balance_due, 0);
+            
+            const collectionRate = totalExpected > 0 ? (totalRevenue / totalExpected * 100) : 0;
+            
+            // Stats Cards
+            const statsCards = `
+                <div class="col-md-3">
+                    <div class="stats-card" style="border-left: 5px solid #28a745;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Current Balance</h6>
+                                <h2 class="mb-0 text-success">${formatCurrency(currentBalance)}</h2>
+                                <small class="text-muted">In account</small>
+                            </div>
+                            <div class="stats-icon" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                                <i class="fas fa-rupee-sign"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="stats-card" style="border-left: 5px solid #ffc107;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Pending Payments</h6>
+                                <h2 class="mb-0 text-warning">${formatCurrency(totalPendingPayments)}</h2>
+                                <small class="text-muted">Balance due</small>
+                            </div>
+                            <div class="stats-icon" style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="stats-card" style="border-left: 5px solid #17a2b8;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Total Expected</h6>
+                                <h2 class="mb-0 text-info">${formatCurrency(totalExpected)}</h2>
+                                <small class="text-muted">All bookings</small>
+                            </div>
+                            <div class="stats-icon" style="background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="stats-card" style="border-left: 5px solid #007bff;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Collection Rate</h6>
+                                <h2 class="mb-0 text-primary">${collectionRate.toFixed(1)}%</h2>
+                                <small class="text-muted">Revenue / Expected</small>
+                            </div>
+                            <div class="stats-icon" style="background: linear-gradient(135deg, #007bff 0%, #6610f2 100%);">
+                                <i class="fas fa-percent"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('statsCards').innerHTML = statsCards;
+            document.getElementById('revenueSummary').innerHTML = `
+                <span class="badge bg-light text-dark me-2">Total: ${formatCurrency(totalExpected)}</span>
+                <span class="badge bg-success me-2">Paid: ${formatCurrency(totalRevenue)}</span>
+                <span class="badge bg-warning">Pending: ${formatCurrency(totalPendingPayments)}</span>
+            `;
+            
+            // Bookings Table
+            let tableHtml = '';
+            bookings.forEach(booking => {
+                tableHtml += `
+                    <tr>
+                        <td><span class="badge bg-secondary">${booking.tracking_number}</span></td>
+                        <td>
+                            <strong>${booking.customer_name}</strong><br>
+                            <small>${booking.phone}</small>
+                        </td>
+                        <td>${booking.car_model}</td>
+                        <td>
+                            <small>P: ${booking.pickup_date}</small><br>
+                            <small>R: ${booking.return_date}</small>
+                        </td>
+                        <td><strong>${formatCurrency(booking.total_price)}</strong></td>
+                        <td class="text-success">${formatCurrency(booking.amount_paid)}</td>
+                        <td class="${booking.balance_due > 0 ? 'text-warning' : 'text-success'}">
+                            ${formatCurrency(booking.balance_due)}
+                        </td>
+                        <td>
+                            <span class="badge ${booking.payment_status === 'paid' ? 'bg-success' : booking.payment_status === 'partial' ? 'bg-warning' : 'bg-danger'}">
+                                ${booking.payment_status.toUpperCase()}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="status-badge status-${booking.status}">${booking.status.toUpperCase()}</span>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-sm btn-info" title="View" onclick="showViewBooking(${booking.id})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                
+                                <button class="btn btn-sm btn-warning" title="Edit Payment" onclick="showEditBooking(${booking.id})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                
+                                ${booking.status === 'pending' ? `
+                                    <button class="btn btn-sm btn-success" title="Activate" onclick="updateBookingStatus(${booking.id}, 'active')">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                ` : ''}
+                                
+                                ${booking.status === 'active' ? `
+                                    <button class="btn btn-sm btn-primary" title="Complete" onclick="updateBookingStatus(${booking.id}, 'completed')">
+                                        <i class="fas fa-flag-checkered"></i>
+                                    </button>
+                                ` : ''}
+                                
+                                <button class="btn btn-sm btn-danger" title="Cancel" onclick="updateBookingStatus(${booking.id}, 'cancelled')">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            if (tableHtml === '') {
+                tableHtml = `
+                    <tr>
+                        <td colspan="10" class="text-center py-4">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <h5>No bookings found</h5>
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            document.getElementById('bookingsTableBody').innerHTML = tableHtml;
+        }
+        
+        function updateBookingStatus(bookingId, status) {
+            const booking = bookings.find(b => b.id == bookingId);
+            if (!booking) return;
+            
+            const oldStatus = booking.status;
+            
+            if (status === 'cancelled' && booking.amount_paid > 0) {
+                // Handle refund
+                const transaction = {
+                    id: transactions.length + 1,
+                    date: new Date().toISOString(),
+                    type: 'expense',
+                    category: 'booking_refund',
+                    description: `Refund for cancelled booking ${booking.tracking_number}`,
+                    amount: booking.amount_paid,
+                    balance_after: currentBalance - booking.amount_paid,
+                    reference_id: booking.tracking_number,
+                    payment_method: booking.payment_method,
+                    notes: 'Auto refund on cancel'
+                };
+                transactions.push(transaction);
+                currentBalance -= booking.amount_paid;
+                
+                booking.amount_paid = 0;
+                booking.balance_due = 0;
+                booking.payment_status = 'cancelled';
+            }
+            
+            booking.status = status;
+            
+            alert(`Booking ${booking.tracking_number} status updated from ${oldStatus} to ${status}`);
+            updateAdminDashboard();
+        }
+        
+        function displayCarsTable() {
+            let html = '';
+            cars.forEach(car => {
+                html += `
+                    <tr>
+                        <td>${car.id}</td>
+                        <td>
+                            <i class="fas fa-car fa-2x text-muted"></i>
+                        </td>
+                        <td>${car.name}</td>
+                        <td>${car.model}</td>
+                        <td>${formatCurrencySimple(car.price_per_day)}</td>
+                        <td>${car.km_per_day} km</td>
+                        <td>${car.category}</td>
+                        <td>${car.seats}</td>
+                        <td>${car.transmission}</td>
+                        <td>
+                            ${car.available ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>'}
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" onclick="editCar(${car.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteCar(${car.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            if (html === '') {
+                html = `
+                    <tr>
+                        <td colspan="11" class="text-center py-4">
+                            <i class="fas fa-car-side fa-3x text-muted mb-3"></i>
+                            <h5>No cars found. Add your first car!</h5>
+                            <button class="btn-gradient mt-3" onclick="showAddCarForm()">
+                                <i class="fas fa-plus"></i> Add Car
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            document.getElementById('carsTableBody').innerHTML = html;
+        }
+        
+        function saveCar() {
+            const name = document.getElementById('car_name').value;
+            const model = document.getElementById('car_model_year').value;
+            const price = parseInt(document.getElementById('car_price').value);
+            const km = parseInt(document.getElementById('car_km').value);
+            const category = document.getElementById('car_category').value;
+            const transmission = document.getElementById('car_transmission').value;
+            const seats = parseInt(document.getElementById('car_seats').value);
+            const fuel = document.getElementById('car_fuel').value;
+            const available = document.getElementById('car_available').checked;
+            
+            if (!name || !model || !price || !km || !seats) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            const car = {
+                id: cars.length + 1,
+                name: name,
+                model: model,
+                price_per_day: price,
+                km_per_day: km,
+                category: category,
+                transmission: transmission,
+                seats: seats,
+                fuel_type: fuel,
+                available: available,
+                image: 'default_car.jpg'
+            };
+            
+            cars.push(car);
+            alert('Car added successfully!');
+            showCarManagement();
+            displayCars();
+            updateCarSelect();
+        }
+        
+        function editCar(carId) {
+            const car = cars.find(c => c.id == carId);
+            if (!car) return;
+            
+            // Implement edit car form
+            alert('Edit car feature - ID: ' + carId);
+        }
+        
+        function deleteCar(carId) {
+            if (confirm('Are you sure you want to delete this car?')) {
+                cars = cars.filter(c => c.id != carId);
+                alert('Car deleted successfully!');
+                displayCarsTable();
+                displayCars();
+                updateCarSelect();
+            }
+        }
+        
+        function displayBannersTable() {
+            let html = '';
+            banners.forEach(banner => {
+                html += `
+                    <tr>
+                        <td>${banner.id}</td>
+                        <td>
+                            <i class="fas fa-image fa-2x text-muted"></i>
+                        </td>
+                        <td>
+                            <strong>${banner.title}</strong><br>
+                            <small>${banner.subtitle || ''}</small>
+                        </td>
+                        <td>
+                            ${banner.offer_text ? `
+                                <span class="badge bg-warning">${banner.offer_text}</span><br>
+                                <small>${banner.km_offer} KM for ${banner.price_offer}</small>
+                            ` : '<span class="badge bg-secondary">No Offer</span>'}
+                        </td>
+                        <td>
+                            ${banner.is_active ? '<span class="status-badge status-active">ACTIVE</span>' : '<span class="status-badge status-cancelled">INACTIVE</span>'}
+                        </td>
+                        <td>${new Date(banner.created_at).toLocaleDateString()}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-sm btn-warning" onclick="editBanner(${banner.id})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-info" onclick="toggleBanner(${banner.id})">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteBanner(${banner.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            if (html === '') {
+                html = `
+                    <tr>
+                        <td colspan="7" class="text-center py-4">
+                            <i class="fas fa-images fa-3x text-muted mb-3"></i>
+                            <h5>No banners found. Add your first banner!</h5>
+                            <button class="btn-gradient mt-3" onclick="showAddBannerForm()">
+                                <i class="fas fa-plus"></i> Add Banner
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            document.getElementById('bannersTableBody').innerHTML = html;
+        }
+        
+        function saveBanner() {
+            const title = document.getElementById('banner_title').value;
+            const subtitle = document.getElementById('banner_subtitle').value;
+            const offerText = document.getElementById('banner_offer_text').value;
+            const kmOffer = parseInt(document.getElementById('banner_km_offer').value);
+            const priceOffer = document.getElementById('banner_price_offer').value;
+            const isActive = document.getElementById('banner_active').checked;
+            
+            if (!title) {
+                alert('Please enter a banner title');
+                return;
+            }
+            
+            // If this banner is active, deactivate all others
+            if (isActive) {
+                banners.forEach(b => b.is_active = false);
+            }
+            
+            const banner = {
+                id: banners.length + 1,
+                title: title,
+                subtitle: subtitle,
+                image: 'default_banner.jpg',
+                offer_text: offerText,
+                km_offer: kmOffer,
+                price_offer: priceOffer,
+                is_active: isActive,
+                created_at: new Date().toISOString()
+            };
+            
+            banners.push(banner);
+            alert('Banner added successfully!');
+            showBannerManagement();
+        }
+        
+        function editBanner(bannerId) {
+            alert('Edit banner feature - ID: ' + bannerId);
+        }
+        
+        function toggleBanner(bannerId) {
+            const banner = banners.find(b => b.id == bannerId);
+            if (!banner) return;
+            
+            if (!banner.is_active) {
+                // Activate this banner - deactivate all others
+                banners.forEach(b => b.is_active = false);
+                banner.is_active = true;
+                alert(`Banner "${banner.title}" is now active!`);
+            } else {
+                // Deactivate this banner
+                banner.is_active = false;
+                alert(`Banner "${banner.title}" deactivated.`);
+            }
+            
+            displayBannersTable();
+        }
+        
+        function deleteBanner(bannerId) {
+            if (confirm('Are you sure you want to delete this banner?')) {
+                banners = banners.filter(b => b.id != bannerId);
+                alert('Banner deleted successfully!');
+                displayBannersTable();
+            }
+        }
+        
+        function updateBackground() {
+            const title = document.getElementById('background_title').value;
+            const description = document.getElementById('background_description').value;
+            
+            background.title = title;
+            background.description = description;
+            
+            alert('Background settings saved!');
+        }
+        
+        function displayBackgroundGallery() {
+            const gallery = document.getElementById('backgroundGallery');
+            gallery.innerHTML = `
+                <div class="col-md-3 mb-3">
+                    <div style="height: 100px; background: #667eea; border-radius: 5px; cursor: pointer; border: 2px solid #fff;" 
+                         onclick="setBackground('default_bg.jpg')"
+                         title="Click to use this background">
+                    </div>
+                    <p class="small text-center mt-1">Default Background</p>
+                </div>
+            `;
+        }
+        
+        function setBackground(filename) {
+            if (confirm('Set this as the website background?')) {
+                background.image = filename;
+                document.getElementById('currentBackgroundName').textContent = 'Filename: ' + filename;
+                alert('Background set to ' + filename);
+            }
+        }
+        
+        function updateHero() {
+            const title = document.getElementById('hero_title').value;
+            const subtitle = document.getElementById('hero_subtitle').value;
+            const opacity = parseFloat(document.getElementById('hero_opacity').value);
+            const color = document.getElementById('hero_color').value;
+            const isActive = document.getElementById('hero_active').checked;
+            
+            hero.title = title;
+            hero.subtitle = subtitle;
+            hero.overlay_opacity = opacity || 0.6;
+            hero.overlay_color = color || '0,0,0';
+            hero.is_active = isActive;
+            
+            document.getElementById('heroTitle').textContent = title;
+            document.getElementById('heroSubtitle').textContent = subtitle;
+            document.getElementById('heroOverlay').style.background = 'rgba(' + hero.overlay_color + ', ' + hero.overlay_opacity + ')';
+            
+            alert('Hero section settings saved!');
+        }
+        
+        function displayHeroGallery() {
+            const gallery = document.getElementById('heroGallery');
+            gallery.innerHTML = `
+                <div class="col-md-3 mb-3">
+                    <div style="height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 5px; cursor: pointer; border: 2px solid #fff;" 
+                         onclick="setHero('default_hero.jpg')"
+                         title="Click to use this background">
+                    </div>
+                    <p class="small text-center mt-1">Default Hero</p>
+                </div>
+            `;
+        }
+        
+        function setHero(filename) {
+            if (confirm('Set this as the hero background?')) {
+                hero.image = filename;
+                document.getElementById('currentHeroName').textContent = 'Filename: ' + filename;
+                alert('Hero background set to ' + filename);
+            }
+        }
+        
+        function updateAccountManagement() {
+            // Calculate totals
+            const totalIncome = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+            const totalExpenses = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+            
+            // Balance Cards
+            const balanceCards = `
+                <div class="col-md-4">
+                    <div class="stats-card" style="border-left: 5px solid #28a745;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Current Balance</h6>
+                                <h2 class="mb-0 text-success">${formatCurrency(currentBalance)}</h2>
+                            </div>
+                            <div class="stats-icon" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                                <i class="fas fa-rupee-sign"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="stats-card" style="border-left: 5px solid #007bff;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Total Income</h6>
+                                <h2 class="mb-0 text-primary">${formatCurrency(totalIncome)}</h2>
+                            </div>
+                            <div class="stats-icon" style="background: linear-gradient(135deg, #007bff 0%, #6610f2 100%);">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="stats-card" style="border-left: 5px solid #dc3545;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Total Expenses</h6>
+                                <h2 class="mb-0 text-danger">${formatCurrency(totalExpenses)}</h2>
+                            </div>
+                            <div class="stats-icon" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);">
+                                <i class="fas fa-arrow-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('balanceCards').innerHTML = balanceCards;
+            
+            // Transactions Table
+            let transactionsHtml = '';
+            transactions.slice(0, 10).forEach(t => {
+                transactionsHtml += `
+                    <tr>
+                        <td>${new Date(t.date).toLocaleString()}</td>
+                        <td>
+                            <span class="badge ${t.type === 'income' ? 'bg-success' : 'bg-danger'}">
+                                ${t.type.toUpperCase()}
+                            </span>
+                        </td>
+                        <td>${t.category}</td>
+                        <td>${t.description}</td>
+                        <td class="${t.type === 'income' ? 'text-success' : 'text-danger'}">
+                            ${formatCurrency(t.amount)}
+                        </td>
+                        <td>${formatCurrency(t.balance_after)}</td>
+                        <td>${t.reference_id || '-'}</td>
+                    </tr>
+                `;
+            });
+            
+            if (transactionsHtml === '') {
+                transactionsHtml = `
+                    <tr>
+                        <td colspan="7" class="text-center py-4">
+                            <i class="fas fa-exchange-alt fa-3x text-muted mb-3"></i>
+                            <h5>No transactions yet</h5>
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            document.getElementById('transactionsTableBody').innerHTML = transactionsHtml;
+            
+            // Expenses Table
+            let expensesHtml = '';
+            expenses.forEach(e => {
+                expensesHtml += `
+                    <tr>
+                        <td>${new Date(e.date).toLocaleDateString()}</td>
+                        <td>${e.category}</td>
+                        <td>${e.description}</td>
+                        <td class="text-danger">${formatCurrency(e.amount)}</td>
+                        <td>${e.payment_method || '-'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" onclick="deleteExpense(${e.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            if (expensesHtml === '') {
+                expensesHtml = `
+                    <tr>
+                        <td colspan="6" class="text-center py-4">
+                            <i class="fas fa-receipt fa-3x text-muted mb-3"></i>
+                            <h5>No expenses recorded</h5>
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            document.getElementById('expensesTableBody').innerHTML = expensesHtml;
+        }
+        
+        function saveExpense() {
+            const date = document.getElementById('expense_date').value;
+            const category = document.getElementById('expense_category').value;
+            const description = document.getElementById('expense_description').value;
+            const amount = parseInt(document.getElementById('expense_amount').value);
+            const paymentMethod = document.getElementById('expense_payment_method').value;
+            const notes = document.getElementById('expense_notes').value;
+            
+            if (!date || !category || !description || !amount) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            const expense = {
+                id: expenses.length + 1,
+                date: date,
+                category: category,
+                description: description,
+                amount: amount,
+                payment_method: paymentMethod,
+                notes: notes
+            };
+            
+            expenses.push(expense);
+            
+            // Add transaction
+            const transaction = {
+                id: transactions.length + 1,
+                date: new Date().toISOString(),
+                type: 'expense',
+                category: category,
+                description: description,
+                amount: amount,
+                balance_after: currentBalance - amount,
+                payment_method: paymentMethod,
+                notes: notes
+            };
+            transactions.push(transaction);
+            currentBalance -= amount;
+            
+            alert(`Expense of ${formatCurrency(amount)} added successfully!`);
+            showAccountManagement();
+        }
+        
+        function deleteExpense(expenseId) {
+            if (confirm('Delete this expense?')) {
+                expenses = expenses.filter(e => e.id != expenseId);
+                alert('Expense deleted');
+                updateAccountManagement();
+            }
+        }
+        
+        function displayViewBooking(booking) {
+            let html = `
+                <div class="text-center mb-4">
+                    <span class="status-badge status-${booking.status}">${booking.status.toUpperCase()}</span>
+                    <span class="badge ${booking.payment_status === 'paid' ? 'bg-success' : booking.payment_status === 'partial' ? 'bg-warning' : 'bg-danger'} ms-2">
+                        ${booking.payment_status.toUpperCase()}
+                    </span>
+                </div>
+                
+                <!-- Tracking Number Display -->
+                <div class="alert alert-info text-center p-4 mb-4">
+                    <h5><i class="fas fa-qrcode"></i> Tracking Number</h5>
+                    <div style="font-size: 32px; font-weight: 700; letter-spacing: 3px;">${booking.tracking_number}</div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <strong>Customer Name:</strong> ${booking.customer_name}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Email:</strong> ${booking.email}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Phone:</strong> ${booking.phone}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Car Model:</strong> ${booking.car_model}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Pickup:</strong> ${booking.pickup_date} at ${booking.pickup_time}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Return:</strong> ${booking.return_date} at ${booking.return_time}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Duration:</strong> ${booking.total_days} days
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Price per day:</strong> ${formatCurrency(booking.car_price_per_day)}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Total Price:</strong> ${formatCurrency(booking.total_price)}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Amount Paid:</strong> ${formatCurrency(booking.amount_paid)}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Balance Due:</strong> ${formatCurrency(booking.balance_due)}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <strong>Booking Date:</strong> ${new Date(booking.created_at).toLocaleString()}
+                    </div>
+                    ${booking.payment_method ? `
+                        <div class="col-md-6 mb-3">
+                            <strong>Payment Method:</strong> ${booking.payment_method}
+                        </div>
+                    ` : ''}
+                    ${booking.payment_reference ? `
+                        <div class="col-md-6 mb-3">
+                            <strong>Payment Reference:</strong> ${booking.payment_reference}
+                        </div>
+                    ` : ''}
+                    ${booking.notes ? `
+                        <div class="col-12 mb-3">
+                            <strong>Notes:</strong> ${booking.notes}
+                        </div>
+                    ` : ''}
+                </div>
+                
+                <hr>
+                
+                <h5 class="mb-3">Documents:</h5>
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <a href="#" target="_blank" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-id-card"></i> ID Front
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="#" target="_blank" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-id-card"></i> ID Back
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="#" target="_blank" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-id-card"></i> License
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button class="btn-warning btn-lg me-2" style="background: #ffc107; color: #000; padding: 12px 30px; border-radius: 50px; text-decoration: none; display: inline-block; font-weight: 600;" onclick="showEditBooking(${booking.id})">
+                        <i class="fas fa-edit"></i> Edit Payment
+                    </button>
+                    <button class="btn-gradient" onclick="showAdminDashboard()">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('viewBookingContent').innerHTML = html;
+        }
+        
+        function displayEditBooking(booking) {
+            let html = `
+                <!-- Current Booking Info -->
+                <div class="alert alert-info mb-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Customer:</strong> ${booking.customer_name}</p>
+                            <p><strong>Car:</strong> ${booking.car_model}</p>
+                            <p><strong>Total Price:</strong> ${formatCurrency(booking.total_price)}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Current Paid:</strong> ${formatCurrency(booking.amount_paid)}</p>
+                            <p><strong>Current Balance:</strong> ${formatCurrency(booking.balance_due)}</p>
+                            <p><strong>Current Payment Status:</strong> 
+                                <span class="badge ${booking.payment_status === 'paid' ? 'bg-success' : booking.payment_status === 'partial' ? 'bg-warning' : 'bg-danger'}">
+                                    ${booking.payment_status.toUpperCase()}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <form id="editBookingForm" onsubmit="event.preventDefault(); updateBooking(${booking.id})">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Amount Paid (Rs.)</label>
+                            <input type="number" class="form-control" id="edit_amount_paid" value="${booking.amount_paid}">
+                            <small class="text-muted">Update the amount paid by customer</small>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Payment Status</label>
+                            <select class="form-select" id="edit_payment_status">
+                                <option value="pending" ${booking.payment_status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="partial" ${booking.payment_status === 'partial' ? 'selected' : ''}>Partial</option>
+                                <option value="paid" ${booking.payment_status === 'paid' ? 'selected' : ''}>Paid</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Booking Status</label>
+                            <select class="form-select" id="edit_status">
+                                <option value="pending" ${booking.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="active" ${booking.status === 'active' ? 'selected' : ''}>Active</option>
+                                <option value="completed" ${booking.status === 'completed' ? 'selected' : ''}>Completed</option>
+                                <option value="cancelled" ${booking.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Payment Method</label>
+                            <input type="text" class="form-control" id="edit_payment_method" value="${booking.payment_method || ''}">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Reference Number</label>
+                        <input type="text" class="form-control" id="edit_payment_reference" value="${booking.payment_reference || ''}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Admin Notes</label>
+                        <textarea class="form-control" id="edit_notes" rows="3">${booking.notes || ''}</textarea>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Note:</strong> Balance due will be automatically recalculated when you update the amount paid.
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn-gradient btn-lg">
+                            <i class="fas fa-save"></i> Update Booking
+                        </button>
+                        <button class="btn-outline-gradient btn-lg ms-2" onclick="showAdminDashboard()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            `;
+            
+            document.getElementById('editBookingContent').innerHTML = html;
+        }
+        
+        function updateBooking(bookingId) {
+            const booking = bookings.find(b => b.id == bookingId);
+            if (!booking) return;
+            
+            const amountPaid = parseInt(document.getElementById('edit_amount_paid').value) || 0;
+            const paymentStatus = document.getElementById('edit_payment_status').value;
+            const status = document.getElementById('edit_status').value;
+            const paymentMethod = document.getElementById('edit_payment_method').value;
+            const paymentReference = document.getElementById('edit_payment_reference').value;
+            const notes = document.getElementById('edit_notes').value;
+            
+            const oldAmountPaid = booking.amount_paid;
+            
+            // Update amount paid
+            booking.amount_paid = amountPaid;
+            booking.balance_due = booking.total_price - booking.amount_paid;
+            
+            // Update payment status based on balance
+            if (booking.balance_due <= 0) {
+                booking.payment_status = 'paid';
+                booking.balance_due = 0;
+            } else if (booking.amount_paid > 0) {
+                booking.payment_status = 'partial';
+            } else {
+                booking.payment_status = 'pending';
+            }
+            
+            // Update other fields
+            if (paymentStatus) booking.payment_status = paymentStatus;
+            if (status) booking.status = status;
+            if (paymentMethod) booking.payment_method = paymentMethod;
+            if (paymentReference) booking.payment_reference = paymentReference;
+            if (notes) booking.notes = notes;
+            
+            // If amount paid changed, add transaction
+            if (amountPaid !== oldAmountPaid) {
+                const transaction = {
+                    id: transactions.length + 1,
+                    date: new Date().toISOString(),
+                    type: 'income',
+                    category: 'booking_payment',
+                    description: `Payment adjustment for booking ${booking.tracking_number}`,
+                    amount: amountPaid - oldAmountPaid,
+                    balance_after: currentBalance + (amountPaid - oldAmountPaid),
+                    reference_id: booking.tracking_number,
+                    payment_method: paymentMethod,
+                    notes: notes
+                };
+                transactions.push(transaction);
+                currentBalance += (amountPaid - oldAmountPaid);
+            }
+            
+            alert(`Booking ${booking.tracking_number} updated successfully!`);
+            showAdminDashboard();
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeData();
+            
+            const pickupDate = document.getElementById('pickup_date');
+            const returnDate = document.getElementById('return_date');
+            const carSelect = document.getElementById('car_model');
+            const pickupTime = document.getElementById('pickup_time');
+            const returnTime = document.getElementById('return_time');
+            
+            // Set min dates
+            const today = new Date().toISOString().split('T')[0];
+            if (pickupDate) pickupDate.min = today;
+            if (returnDate) returnDate.min = today;
+            
+            // Add event listeners
+            if (pickupDate) pickupDate.addEventListener('change', calculateTotal);
+            if (returnDate) returnDate.addEventListener('change', calculateTotal);
+            if (carSelect) carSelect.addEventListener('change', calculateTotal);
+            if (pickupTime) pickupTime.addEventListener('change', calculateTotal);
+            if (returnTime) returnTime.addEventListener('change', calculateTotal);
+            
+            // Update return date min when pickup changes
+            if (pickupDate) {
+                pickupDate.addEventListener('change', function() {
+                    if (returnDate) {
+                        returnDate.min = this.value;
+                        if (returnDate.value && new Date(returnDate.value) <= new Date(this.value)) {
+                            returnDate.value = '';
+                        }
+                    }
+                    calculateTotal();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
