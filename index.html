@@ -13,6 +13,9 @@
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- SQLite in browser (sql.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.11.0/sql-wasm.js"></script>
     
     <style>
         * {
@@ -828,7 +831,12 @@
                                     <i class="fas fa-chart-line"></i>
                                     Fahad Premium Rentals - Business Dashboard
                                 </h3>
-                                <span class="badge bg-light text-dark" id="lastUpdated"></span>
+                                <div class="d-flex align-items-center gap-2">
+                                    <button class="btn btn-sm btn-light" type="button" onclick="downloadSqliteDb()">
+                                        <i class="fas fa-database"></i> Download DB
+                                    </button>
+                                    <span class="badge bg-light text-dark" id="lastUpdated"></span>
+                                </div>
                             </div>
                         </div>
                         
@@ -1584,6 +1592,509 @@
     </footer>
     
     <script>
+        // ---------------------------
+        // SQLite (sql.js) persistence
+        // ---------------------------
+        let SQL = null;
+        let sqliteDb = null;
+
+        // NOTE: localStorage quota is too small for image BLOB databases.
+        // We persist the SQLite bytes into IndexedDB instead.
+        const SQLITE_IDB_DB = 'fahad_sqlite_storage_v1';
+        const SQLITE_IDB_STORE = 'db';
+        const SQLITE_IDB_KEY = 'sqlite_bytes';
+
+        function openSqliteIdb() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(SQLITE_IDB_DB, 1);
+                req.onupgradeneeded = () => {
+                    const db = req.result;
+                    if (!db.objectStoreNames.contains(SQLITE_IDB_STORE)) {
+                        db.createObjectStore(SQLITE_IDB_STORE);
+                    }
+                };
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        async function idbGetSqliteBytes() {
+            const db = await openSqliteIdb();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(SQLITE_IDB_STORE, 'readonly');
+                const store = tx.objectStore(SQLITE_IDB_STORE);
+                const req = store.get(SQLITE_IDB_KEY);
+                req.onsuccess = () => resolve(req.result || null);
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        async function idbSetSqliteBytes(bytes) {
+            const db = await openSqliteIdb();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(SQLITE_IDB_STORE, 'readwrite');
+                const store = tx.objectStore(SQLITE_IDB_STORE);
+                store.put(bytes, SQLITE_IDB_KEY);
+                tx.oncomplete = () => resolve(true);
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+
+        async function initSqlite() {
+            if (sqliteDb) return sqliteDb;
+            if (typeof initSqlJs !== 'function') throw new Error('sql.js failed to load');
+
+            SQL = await initSqlJs({
+                locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.11.0/${file}`
+            });
+
+            const savedBytes = await idbGetSqliteBytes();
+            sqliteDb = savedBytes ? new SQL.Database(new Uint8Array(savedBytes)) : new SQL.Database();
+
+            ensureSqliteSchema();
+            await persistSqlite();
+            return sqliteDb;
+        }
+
+        let persistTimer = null;
+        let persistInFlight = false;
+
+        async function persistSqlite() {
+            if (!sqliteDb) return;
+            if (persistInFlight) return;
+            persistInFlight = true;
+            try {
+                const bytes = sqliteDb.export(); // Uint8Array
+                await idbSetSqliteBytes(bytes.buffer);
+            } finally {
+                persistInFlight = false;
+            }
+        }
+
+        function persistSqliteSoon() {
+            if (persistTimer) return;
+            persistTimer = setTimeout(async () => {
+                persistTimer = null;
+                try {
+                    await persistSqlite();
+                } catch (e) {
+                    console.warn('SQLite persist failed', e);
+                }
+            }, 250);
+        }
+
+        function ensureSqliteSchema() {
+            if (!sqliteDb) return;
+            sqliteDb.run(`
+                CREATE TABLE IF NOT EXISTS bookings (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    tracking_number TEXT,
+                    customer_name TEXT,
+                    email TEXT,
+                    phone TEXT,
+                    car_model TEXT,
+                    car_price_per_day REAL,
+                    pickup_date TEXT,
+                    pickup_time TEXT,
+                    return_date TEXT,
+                    return_time TEXT,
+                    total_days INTEGER,
+                    total_price REAL,
+                    amount_paid REAL,
+                    balance_due REAL,
+                    payment_status TEXT,
+                    status TEXT,
+                    id_front_name TEXT,
+                    id_front_type TEXT,
+                    id_front_blob BLOB,
+                    id_back_name TEXT,
+                    id_back_type TEXT,
+                    id_back_blob BLOB,
+                    license_name TEXT,
+                    license_type TEXT,
+                    license_blob BLOB,
+                    created_at TEXT
+                );
+
+                CREATE TABLE IF NOT EXISTS cars (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT,
+                    model TEXT,
+                    price_per_day INTEGER,
+                    km_per_day INTEGER,
+                    category TEXT,
+                    transmission TEXT,
+                    seats INTEGER,
+                    fuel_type TEXT,
+                    available INTEGER,
+                    image_name TEXT,
+                    image_type TEXT,
+                    image_blob BLOB,
+                    created_at TEXT
+                );
+
+                CREATE TABLE IF NOT EXISTS banners (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title TEXT,
+                    subtitle TEXT,
+                    offer_text TEXT,
+                    km_offer INTEGER,
+                    price_offer TEXT,
+                    is_active INTEGER,
+                    image_name TEXT,
+                    image_type TEXT,
+                    image_blob BLOB,
+                    created_at TEXT
+                );
+
+                CREATE TABLE IF NOT EXISTS expenses (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    date TEXT,
+                    category TEXT,
+                    description TEXT,
+                    amount INTEGER,
+                    payment_method TEXT,
+                    notes TEXT,
+                    receipt_name TEXT,
+                    receipt_type TEXT,
+                    receipt_blob BLOB,
+                    created_at TEXT
+                );
+            `);
+        }
+
+        async function fileToUint8Array(file) {
+            const buf = await file.arrayBuffer();
+            return new Uint8Array(buf);
+        }
+
+        async function saveBookingToSqlite(booking, idFrontFile, idBackFile, licenseFile) {
+            await initSqlite();
+            const idFrontBytes = await fileToUint8Array(idFrontFile);
+            const idBackBytes = await fileToUint8Array(idBackFile);
+            const licBytes = await fileToUint8Array(licenseFile);
+
+            const stmt = sqliteDb.prepare(`
+                INSERT INTO bookings (
+                    tracking_number, customer_name, email, phone, car_model, car_price_per_day,
+                    pickup_date, pickup_time, return_date, return_time, total_days, total_price,
+                    amount_paid, balance_due, payment_status, status,
+                    id_front_name, id_front_type, id_front_blob,
+                    id_back_name, id_back_type, id_back_blob,
+                    license_name, license_type, license_blob,
+                    created_at
+                ) VALUES (
+                    ?,?,?,?,?,?,
+                    ?,?,?,?, ?,?,
+                    ?,?,?,?,
+                    ?,?,?,
+                    ?,?,?,
+                    ?,?,?,
+                    ?
+                );
+            `);
+
+            stmt.run([
+                booking.tracking_number,
+                booking.customer_name,
+                booking.email,
+                booking.phone,
+                booking.car_model,
+                booking.car_price_per_day,
+                booking.pickup_date,
+                booking.pickup_time,
+                booking.return_date,
+                booking.return_time,
+                booking.total_days,
+                booking.total_price,
+                booking.amount_paid,
+                booking.balance_due,
+                booking.payment_status,
+                booking.status,
+                idFrontFile.name,
+                idFrontFile.type || '',
+                idFrontBytes,
+                idBackFile.name,
+                idBackFile.type || '',
+                idBackBytes,
+                licenseFile.name,
+                licenseFile.type || '',
+                licBytes,
+                booking.created_at
+            ]);
+            stmt.free();
+
+            // Get autoincrement id
+            const res = sqliteDb.exec('SELECT last_insert_rowid() AS id;');
+            const id = res?.[0]?.values?.[0]?.[0];
+            persistSqliteSoon();
+            return id;
+        }
+
+        async function saveCarToSqlite(car, imageFile) {
+            await initSqlite();
+            const now = car.created_at || new Date().toISOString();
+            const imgBytes = imageFile ? await fileToUint8Array(imageFile) : null;
+            const stmt = sqliteDb.prepare(`
+                INSERT INTO cars (
+                    name, model, price_per_day, km_per_day, category, transmission, seats,
+                    fuel_type, available, image_name, image_type, image_blob, created_at
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);
+            `);
+            stmt.run([
+                car.name, car.model, car.price_per_day, car.km_per_day, car.category, car.transmission, car.seats,
+                car.fuel_type, car.available ? 1 : 0,
+                imageFile ? imageFile.name : null,
+                imageFile ? (imageFile.type || '') : null,
+                imgBytes,
+                now
+            ]);
+            stmt.free();
+            const res = sqliteDb.exec('SELECT last_insert_rowid() AS id;');
+            const id = res?.[0]?.values?.[0]?.[0];
+            persistSqliteSoon();
+            return id;
+        }
+
+        async function saveBannerToSqlite(banner, imageFile) {
+            await initSqlite();
+            const now = banner.created_at || new Date().toISOString();
+            const imgBytes = imageFile ? await fileToUint8Array(imageFile) : null;
+            const stmt = sqliteDb.prepare(`
+                INSERT INTO banners (
+                    title, subtitle, offer_text, km_offer, price_offer, is_active,
+                    image_name, image_type, image_blob, created_at
+                ) VALUES (?,?,?,?,?,?,?,?,?,?);
+            `);
+            stmt.run([
+                banner.title,
+                banner.subtitle || null,
+                banner.offer_text || null,
+                Number.isFinite(banner.km_offer) ? banner.km_offer : null,
+                banner.price_offer || null,
+                banner.is_active ? 1 : 0,
+                imageFile ? imageFile.name : null,
+                imageFile ? (imageFile.type || '') : null,
+                imgBytes,
+                now
+            ]);
+            stmt.free();
+            const res = sqliteDb.exec('SELECT last_insert_rowid() AS id;');
+            const id = res?.[0]?.values?.[0]?.[0];
+            persistSqliteSoon();
+            return id;
+        }
+
+        async function saveExpenseToSqlite(expense, receiptFile) {
+            await initSqlite();
+            const now = expense.created_at || new Date().toISOString();
+            const receiptBytes = receiptFile ? await fileToUint8Array(receiptFile) : null;
+            const stmt = sqliteDb.prepare(`
+                INSERT INTO expenses (
+                    date, category, description, amount, payment_method, notes,
+                    receipt_name, receipt_type, receipt_blob, created_at
+                ) VALUES (?,?,?,?,?,?,?,?,?,?);
+            `);
+            stmt.run([
+                expense.date,
+                expense.category,
+                expense.description,
+                expense.amount,
+                expense.payment_method || null,
+                expense.notes || null,
+                receiptFile ? receiptFile.name : null,
+                receiptFile ? (receiptFile.type || '') : null,
+                receiptBytes,
+                now
+            ]);
+            stmt.free();
+            const res = sqliteDb.exec('SELECT last_insert_rowid() AS id;');
+            const id = res?.[0]?.values?.[0]?.[0];
+            persistSqliteSoon();
+            return id;
+        }
+
+        async function loadDataFromSqlite() {
+            await initSqlite();
+
+            const toObjects = (execResult, columns) => {
+                if (!execResult?.length) return [];
+                return execResult[0].values.map(row => {
+                    const obj = {};
+                    for (let i = 0; i < columns.length; i++) obj[columns[i]] = row[i];
+                    return obj;
+                });
+            };
+
+            // Bookings (do not load blobs into JS arrays; keep only filenames)
+            const b = sqliteDb.exec(`
+                SELECT id, tracking_number, customer_name, email, phone, car_model, car_price_per_day,
+                       pickup_date, pickup_time, return_date, return_time, total_days, total_price,
+                       amount_paid, balance_due, payment_status, status,
+                       id_front_name, id_back_name, license_name, created_at
+                FROM bookings ORDER BY id ASC;
+            `);
+            bookings = toObjects(b, [
+                'id','tracking_number','customer_name','email','phone','car_model','car_price_per_day',
+                'pickup_date','pickup_time','return_date','return_time','total_days','total_price',
+                'amount_paid','balance_due','payment_status','status',
+                'id_front','id_back','license_file','created_at'
+            ]);
+
+            const c = sqliteDb.exec(`
+                SELECT id, name, model, price_per_day, km_per_day, category, transmission, seats, fuel_type,
+                       available, image_name,
+                       CASE WHEN image_blob IS NULL THEN 0 ELSE 1 END AS has_image,
+                       created_at
+                FROM cars ORDER BY id ASC;
+            `);
+            cars = toObjects(c, [
+                'id','name','model','price_per_day','km_per_day','category','transmission','seats','fuel_type',
+                'available','image','has_image','created_at'
+            ]).map(x => ({
+                ...x,
+                available: !!x.available,
+                has_image: !!x.has_image,
+                image: x.image || null
+            }));
+
+            const bn = sqliteDb.exec(`
+                SELECT id, title, subtitle, offer_text, km_offer, price_offer, is_active, image_name, created_at
+                FROM banners ORDER BY id ASC;
+            `);
+            banners = toObjects(bn, [
+                'id','title','subtitle','offer_text','km_offer','price_offer','is_active','image','created_at'
+            ]).map(x => ({...x, is_active: !!x.is_active, image: x.image || 'default_banner.jpg'}));
+
+            const ex = sqliteDb.exec(`
+                SELECT id, date, category, description, amount, payment_method, notes, receipt_name, created_at
+                FROM expenses ORDER BY id ASC;
+            `);
+            expenses = toObjects(ex, [
+                'id','date','category','description','amount','payment_method','notes','receipt','created_at'
+            ]);
+        }
+
+        async function downloadSqliteDb() {
+            try {
+                await initSqlite();
+                await persistSqlite();
+                const bytes = sqliteDb.export();
+                const blob = new Blob([bytes], { type: 'application/x-sqlite3' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'fahad.db';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+            } catch (e) {
+                alert('SQLite download failed: ' + (e.message || e));
+            }
+        }
+
+        // Car image preview (SQLite BLOB -> object URL)
+        const carImageUrlCache = new Map(); // carId -> objectURL
+
+        async function getCarImageObjectUrlFromSqlite(carId) {
+            if (carImageUrlCache.has(carId)) return carImageUrlCache.get(carId);
+            await initSqlite();
+
+            const stmt = sqliteDb.prepare(
+                `SELECT image_name AS name, image_type AS mime, image_blob AS blob
+                 FROM cars WHERE id = ? LIMIT 1;`
+            );
+            stmt.bind([carId]);
+            const row = stmt.step() ? stmt.getAsObject() : null;
+            stmt.free();
+
+            if (!row || !row.blob) return null;
+
+            const bytes = row.blob instanceof Uint8Array ? row.blob : new Uint8Array(row.blob);
+            const mime = row.mime || 'application/octet-stream';
+            const url = URL.createObjectURL(new Blob([bytes], { type: mime }));
+            carImageUrlCache.set(carId, url);
+            return url;
+        }
+
+        async function hydrateCarCardImage(carId) {
+            try {
+                const imgEl = document.getElementById(`car-img-${carId}`);
+                const iconEl = document.getElementById(`car-icon-${carId}`);
+                if (!imgEl) return;
+
+                const url = await getCarImageObjectUrlFromSqlite(carId);
+                if (!url) return;
+
+                imgEl.src = url;
+                imgEl.style.display = 'block';
+                if (iconEl) iconEl.style.display = 'none';
+            } catch (e) {
+                console.warn('Car image hydrate failed', e);
+            }
+        }
+
+        async function getBookingDocumentFromSqlite(bookingId, docType) {
+            await initSqlite();
+            const colMap = {
+                id_front: { name: 'id_front_name', type: 'id_front_type', blob: 'id_front_blob' },
+                id_back: { name: 'id_back_name', type: 'id_back_type', blob: 'id_back_blob' },
+                license: { name: 'license_name', type: 'license_type', blob: 'license_blob' }
+            };
+            const cols = colMap[docType];
+            if (!cols) throw new Error('Unknown document type');
+
+            const stmt = sqliteDb.prepare(
+                `SELECT ${cols.name} AS name, ${cols.type} AS mime, ${cols.blob} AS blob
+                 FROM bookings WHERE id = ? LIMIT 1;`
+            );
+            stmt.bind([bookingId]);
+            const row = stmt.step() ? stmt.getAsObject() : null;
+            stmt.free();
+
+            if (!row || !row.blob) throw new Error('Document not found');
+
+            // sql.js returns BLOB as Uint8Array
+            const bytes = row.blob instanceof Uint8Array ? row.blob : new Uint8Array(row.blob);
+            const mime = row.mime || 'application/octet-stream';
+            const name = row.name || `${docType}.bin`;
+            return { name, mime, bytes };
+        }
+
+        async function previewBookingDocument(bookingId, docType) {
+            try {
+                const doc = await getBookingDocumentFromSqlite(bookingId, docType);
+                const blob = new Blob([doc.bytes], { type: doc.mime });
+                const url = URL.createObjectURL(blob);
+
+                // Open in new tab (images and PDFs supported)
+                window.open(url, '_blank', 'noopener,noreferrer');
+
+                // Revoke later (keep some time so the tab can load)
+                setTimeout(() => URL.revokeObjectURL(url), 60_000);
+            } catch (e) {
+                alert('Preview failed: ' + (e.message || e));
+            }
+        }
+
+        async function downloadBookingDocument(bookingId, docType) {
+            try {
+                const doc = await getBookingDocumentFromSqlite(bookingId, docType);
+                const blob = new Blob([doc.bytes], { type: doc.mime });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = doc.name;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                setTimeout(() => URL.revokeObjectURL(url), 5_000);
+            } catch (e) {
+                alert('Download failed: ' + (e.message || e));
+            }
+        }
+
         // Data Storage
         let bookings = [];
         let cars = [];
@@ -1638,6 +2149,20 @@
             // Display Cars
             displayCars();
             updateCarSelect();
+
+            // If a SQLite DB exists, load data from it and refresh UI
+            (async () => {
+                try {
+                    const hasDb = await idbGetSqliteBytes();
+                    if (!hasDb) return;
+                    await loadDataFromSqlite();
+                    displayCars();
+                    updateCarSelect();
+                    if (typeof updateAdminDashboard === 'function') updateAdminDashboard();
+                } catch (e) {
+                    console.warn('SQLite load failed', e);
+                }
+            })();
         }
         
         // Format Currency
@@ -2062,7 +2587,8 @@
                     <div class="col-md-4 mb-4">
                         <div class="car-card" onclick="selectCar('${car.name} ${car.model}', ${car.price_per_day})">
                             <div class="car-image">
-                                <i class="fas fa-car"></i>
+                                <i class="fas fa-car" id="car-icon-${car.id}"></i>
+                                <img id="car-img-${car.id}" alt="${car.name}" style="display:none;">
                             </div>
                             <div class="car-details">
                                 <h4>${car.name}</h4>
@@ -2076,6 +2602,11 @@
             });
             
             carsContainer.innerHTML = html;
+
+            // Load images from SQLite for cards that have images
+            cars.filter(car => car.available && car.has_image).forEach(car => {
+                hydrateCarCardImage(car.id);
+            });
         }
         
         function updateCarSelect() {
@@ -2184,7 +2715,7 @@
         }
         
         // Booking Functions
-        function submitBooking() {
+        async function submitBooking() {
             // Validate form
             const customerName = document.getElementById('customer_name').value;
             const email = document.getElementById('email').value;
@@ -2270,7 +2801,19 @@
                 status: 'pending',
                 created_at: new Date().toISOString()
             };
-            
+
+            // Save to SQLite (including uploaded files)
+            try {
+                const dbId = await saveBookingToSqlite(booking, idFront, idBack, licenseFile);
+                booking.id = dbId;
+                booking.id_front = idFront.name;
+                booking.id_back = idBack.name;
+                booking.license_file = licenseFile.name;
+            } catch (e) {
+                alert('Could not save to SQLite DB: ' + (e.message || e));
+                return;
+            }
+
             // Add to bookings array
             bookings.push(booking);
             
@@ -2950,7 +3493,7 @@
             document.getElementById('carsTableBody').innerHTML = html;
         }
         
-        function saveCar() {
+        async function saveCar() {
             const name = document.getElementById('car_name').value;
             const model = document.getElementById('car_model_year').value;
             const price = parseInt(document.getElementById('car_price').value);
@@ -2960,6 +3503,7 @@
             const seats = parseInt(document.getElementById('car_seats').value);
             const fuel = document.getElementById('car_fuel').value;
             const available = document.getElementById('car_available').checked;
+            const carImage = document.getElementById('car_image')?.files?.[0] || null;
             
             if (!name || !model || !price || !km || !seats) {
                 alert('Please fill in all required fields');
@@ -2977,9 +3521,25 @@
                 seats: seats,
                 fuel_type: fuel,
                 available: available,
-                image: 'default_car.jpg'
+                image: null,
+                has_image: false
             };
-            
+
+            try {
+                const dbId = await saveCarToSqlite(car, carImage);
+                car.id = dbId;
+                if (carImage) {
+                    car.image = carImage.name;
+                    car.has_image = true;
+                    // Instant preview without re-reading from SQLite
+                    const url = URL.createObjectURL(carImage);
+                    carImageUrlCache.set(car.id, url);
+                }
+            } catch (e) {
+                alert('Could not save car to SQLite DB: ' + (e.message || e));
+                return;
+            }
+
             cars.push(car);
             alert('Car added successfully!');
             showCarManagement();
@@ -3062,13 +3622,14 @@
             document.getElementById('bannersTableBody').innerHTML = html;
         }
         
-        function saveBanner() {
+        async function saveBanner() {
             const title = document.getElementById('banner_title').value;
             const subtitle = document.getElementById('banner_subtitle').value;
             const offerText = document.getElementById('banner_offer_text').value;
             const kmOffer = parseInt(document.getElementById('banner_km_offer').value);
             const priceOffer = document.getElementById('banner_price_offer').value;
             const isActive = document.getElementById('banner_active').checked;
+            const bannerImage = document.getElementById('banner_image')?.files?.[0] || null;
             
             if (!title) {
                 alert('Please enter a banner title');
@@ -3091,7 +3652,16 @@
                 is_active: isActive,
                 created_at: new Date().toISOString()
             };
-            
+
+            try {
+                const dbId = await saveBannerToSqlite(banner, bannerImage);
+                banner.id = dbId;
+                if (bannerImage) banner.image = bannerImage.name;
+            } catch (e) {
+                alert('Could not save banner to SQLite DB: ' + (e.message || e));
+                return;
+            }
+
             banners.push(banner);
             alert('Banner added successfully!');
             showBannerManagement();
@@ -3319,13 +3889,14 @@
             document.getElementById('expensesTableBody').innerHTML = expensesHtml;
         }
         
-        function saveExpense() {
+        async function saveExpense() {
             const date = document.getElementById('expense_date').value;
             const category = document.getElementById('expense_category').value;
             const description = document.getElementById('expense_description').value;
             const amount = parseInt(document.getElementById('expense_amount').value);
             const paymentMethod = document.getElementById('expense_payment_method').value;
             const notes = document.getElementById('expense_notes').value;
+            const receipt = document.getElementById('expense_receipt')?.files?.[0] || null;
             
             if (!date || !category || !description || !amount) {
                 alert('Please fill in all required fields');
@@ -3341,7 +3912,16 @@
                 payment_method: paymentMethod,
                 notes: notes
             };
-            
+
+            try {
+                const dbId = await saveExpenseToSqlite(expense, receipt);
+                expense.id = dbId;
+                if (receipt) expense.receipt = receipt.name;
+            } catch (e) {
+                alert('Could not save expense to SQLite DB: ' + (e.message || e));
+                return;
+            }
+
             expenses.push(expense);
             
             // Add transaction
@@ -3445,19 +4025,37 @@
                 <h5 class="mb-3">Documents:</h5>
                 <div class="row">
                     <div class="col-md-3 mb-2">
-                        <a href="#" target="_blank" class="btn btn-outline-primary w-100">
-                            <i class="fas fa-id-card"></i> ID Front
-                        </a>
+                        <div class="small mb-1 text-muted">${booking.id_front || 'ID Front'}</div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-primary w-100" type="button" onclick="previewBookingDocument(${booking.id}, 'id_front')">
+                                <i class="fas fa-eye"></i> Preview ID Front
+                            </button>
+                            <button class="btn btn-outline-secondary w-100" type="button" onclick="downloadBookingDocument(${booking.id}, 'id_front')">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
                     </div>
                     <div class="col-md-3 mb-2">
-                        <a href="#" target="_blank" class="btn btn-outline-primary w-100">
-                            <i class="fas fa-id-card"></i> ID Back
-                        </a>
+                        <div class="small mb-1 text-muted">${booking.id_back || 'ID Back'}</div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-primary w-100" type="button" onclick="previewBookingDocument(${booking.id}, 'id_back')">
+                                <i class="fas fa-eye"></i> Preview ID Back
+                            </button>
+                            <button class="btn btn-outline-secondary w-100" type="button" onclick="downloadBookingDocument(${booking.id}, 'id_back')">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
                     </div>
                     <div class="col-md-3 mb-2">
-                        <a href="#" target="_blank" class="btn btn-outline-primary w-100">
-                            <i class="fas fa-id-card"></i> License
-                        </a>
+                        <div class="small mb-1 text-muted">${booking.license_file || 'License'}</div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-primary w-100" type="button" onclick="previewBookingDocument(${booking.id}, 'license')">
+                                <i class="fas fa-eye"></i> Preview License
+                            </button>
+                            <button class="btn btn-outline-secondary w-100" type="button" onclick="downloadBookingDocument(${booking.id}, 'license')">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
